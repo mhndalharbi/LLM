@@ -1,0 +1,4 @@
+/api/login /.netlify/functions/verify-order 200
+/api/session /.netlify/functions/session 200
+/api/logout /.netlify/functions/logout 200
+/* /index.html 200
