@@ -1,0 +1,1719 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="description" content="موسوعة عربية تضم أوامر جاهزة لصناعة الصور والفيديو بالذكاء الاصطناعي.">
+<meta name="theme-color" content="#F5FBF7">
+<title>أوامر — مكتبة أوامر الصور</title>
+<link rel="icon" type="image/png" href="./llm-logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  @font-face {
+    font-family: 'Thmanyah Sans';
+    src: url('./thmanyahsans-Bold.otf') format('opentype');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  /* ─── RESET & BASE ─── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg:        #F5FBF7;
+    --bg2:       #FFFFFF;
+    --bg3:       #EAF7EF;
+    --surface:   #F0F9F3;
+    --border:    #CDE7D5;
+    --text:      #073D24;
+    --muted:     #58806A;
+    --dim:       #8AAD99;
+    --green:     #12A150;
+    --green-dark:#08783A;
+    --green-soft:#DDF5E6;
+    --cat-portrait:    #168A4A;
+    --cat-landscape:   #38A169;
+    --cat-abstract:    #58B77A;
+    --cat-product:     #079447;
+    --cat-cinematic:   #24A85B;
+    --cat-fantasy:     #73BE8D;
+    --cat-architecture:#0C7F42;
+    --cat-editorial:   #45AA6B;
+    --r-card:    14px;
+    --r-pill:    999px;
+    --r-modal:   20px;
+    --shadow:    0 12px 30px rgba(8,120,58,.12);
+    --shadow-lg: 0 22px 60px rgba(8,120,58,.18);
+    --glass:     rgba(255,255,255,.54);
+    --glass-strong: rgba(255,255,255,.72);
+    --glass-border: rgba(255,255,255,.82);
+    --glass-shadow: 0 18px 45px rgba(7,61,36,.12), inset 0 1px 0 rgba(255,255,255,.9);
+    --trans:     all .22s cubic-bezier(.4,0,.2,1);
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    background:
+      radial-gradient(circle at 85% 5%, rgba(49,201,111,.32), transparent 30rem),
+      radial-gradient(circle at 5% 48%, rgba(255,255,255,.95), transparent 28rem),
+      radial-gradient(circle at 85% 88%, rgba(115,190,141,.24), transparent 26rem),
+      linear-gradient(145deg, #F8FFFA 0%, #E9F8EE 52%, #DDF3E6 100%);
+    background-attachment: fixed;
+    color: var(--text);
+    font-family: 'Thmanyah Sans', 'DM Sans', system-ui, sans-serif;
+    font-size: 15px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100dvh;
+    overflow-x: hidden;
+  }
+  button, input { font-family: inherit; }
+  button:focus-visible, input:focus-visible, .card:focus-visible, a:focus-visible {
+    outline: 3px solid rgba(18,161,80,.32);
+    outline-offset: 3px;
+  }
+
+  /* ─── ORDER ACCESS ─── */
+  body.auth-checking > :not(.auth-gate):not(script),
+  body.auth-locked > :not(.auth-gate):not(script) {
+    visibility: hidden;
+  }
+  .auth-gate {
+    position: fixed; inset: 0; z-index: 1000;
+    display: grid; place-items: center; padding: 20px;
+    background:
+      radial-gradient(circle at 80% 10%, rgba(49,201,111,.36), transparent 26rem),
+      linear-gradient(145deg, #F8FFFA, #E3F6E9);
+  }
+  body.authenticated .auth-gate { display: none; }
+  .auth-card {
+    width: min(430px, 100%); padding: 30px;
+    background: rgba(255,255,255,.64);
+    border: 1px solid rgba(255,255,255,.95); border-radius: 26px;
+    box-shadow: var(--shadow-lg), inset 0 1px 1px #fff;
+    backdrop-filter: blur(24px) saturate(170%);
+    text-align: center;
+  }
+  .auth-logo {
+    width: 76px; height: 76px; margin: 0 auto 18px;
+    border-radius: 22px; object-fit: cover;
+    box-shadow: 0 12px 28px rgba(8,120,58,.18);
+  }
+  .auth-card h1 { font-size: 27px; margin-bottom: 7px; }
+  .auth-card p { color: var(--muted); font-size: 13px; margin-bottom: 22px; }
+  .auth-form { display: grid; gap: 10px; text-align: right; }
+  .auth-form label { color: var(--text); font-size: 12px; }
+  .auth-input {
+    width: 100%; padding: 13px 15px;
+    border: 1px solid var(--border); border-radius: 12px;
+    background: rgba(255,255,255,.76); color: var(--text);
+    font-size: 16px; text-align: center; direction: ltr; outline: none;
+  }
+  .auth-input:focus { border-color: var(--green); box-shadow: 0 0 0 3px rgba(18,161,80,.14); }
+  .auth-submit {
+    padding: 13px; border: 0; border-radius: 12px;
+    background: linear-gradient(135deg, var(--green-dark), var(--green));
+    color: #fff; font-size: 14px; cursor: pointer; transition: var(--trans);
+  }
+  .auth-submit:hover { transform: translateY(-2px); }
+  .auth-submit:disabled { opacity: .62; cursor: wait; transform: none; }
+  .auth-message { min-height: 21px; margin: 2px 0 0 !important; color: #A23939 !important; }
+  .auth-status { color: var(--muted); font-size: 13px; }
+  .logout-btn {
+    display: none; flex-shrink: 0; padding: 8px 11px;
+    border: 1px solid var(--glass-border); border-radius: var(--r-pill);
+    background: rgba(255,255,255,.52); color: var(--muted); cursor: pointer;
+  }
+  body.authenticated .logout-btn { display: inline-flex; }
+  @media (max-width: 520px) {
+    .auth-card { padding: 24px 18px; }
+    .logout-btn { width: 35px; overflow: hidden; white-space: nowrap; color: transparent; position: relative; }
+    .logout-btn::after { content: "↪"; color: var(--muted); position: absolute; inset: 0; display: grid; place-items: center; }
+  }
+
+  /* ─── HEADER ─── */
+  header {
+    position: sticky; top: 0; z-index: 40;
+    background: rgba(255,255,255,.48);
+    backdrop-filter: blur(24px) saturate(170%);
+    -webkit-backdrop-filter: blur(24px) saturate(170%);
+    border-bottom: 1px solid rgba(255,255,255,.8);
+    box-shadow: 0 8px 28px rgba(7,61,36,.06);
+    padding: 14px 16px;
+  }
+  .header-inner {
+    max-width: 1200px; margin: 0 auto;
+    display: flex; align-items: center; gap: 14px;
+  }
+  .logo {
+    font-size: 17px; font-weight: 600; letter-spacing: -.4px;
+    color: var(--text); text-decoration: none; flex-shrink: 0;
+    display: flex; align-items: center; gap: 7px;
+  }
+  .logo-icon {
+    width: 34px; height: 34px; border-radius: 10px;
+    background: rgba(255,255,255,.76);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; overflow: hidden;
+    box-shadow: inset 0 1px 1px rgba(255,255,255,.65), 0 6px 18px rgba(8,120,58,.2);
+  }
+  .logo-icon img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .search-wrap {
+    flex: 1; position: relative;
+  }
+  .search-wrap svg {
+    position: absolute; right: 11px; top: 50%; transform: translateY(-50%);
+    color: var(--muted); pointer-events: none;
+  }
+  #search {
+    width: 100%; background: rgba(255,255,255,.52);
+    border: 1px solid var(--glass-border); border-radius: var(--r-pill);
+    color: var(--text); font-family: inherit; font-size: 14px;
+    padding: 9px 36px 9px 14px; outline: none;
+    transition: var(--trans);
+    box-shadow: inset 0 1px 1px rgba(255,255,255,.9), 0 6px 18px rgba(7,61,36,.05);
+    backdrop-filter: blur(16px) saturate(160%);
+    -webkit-backdrop-filter: blur(16px) saturate(160%);
+  }
+  #search::placeholder { color: var(--dim); }
+  #search:focus { border-color: var(--green); box-shadow: 0 0 0 3px rgba(18,161,80,.15); }
+
+  /* ─── HERO ─── */
+  .hero {
+    padding: 36px 16px 12px;
+    max-width: 1200px; margin: 0 auto;
+    text-align: center;
+  }
+  .hero h1 {
+    background: linear-gradient(115deg, var(--green-dark), var(--green), #78C994);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .hero h1 {
+    font-family: 'Thmanyah Sans', 'DM Sans', system-ui, sans-serif;
+    font-size: clamp(26px, 7vw, 48px);
+    font-weight: 500; line-height: 1.18; letter-spacing: -.5px;
+    margin-bottom: 10px;
+  }
+  .hero h1 em { font-style: italic; color: inherit; }
+  .hero p {
+    color: var(--muted); font-size: 14px; max-width: 360px; margin: 0 auto 24px;
+  }
+  .count-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--glass); border: 1px solid var(--glass-border);
+    border-radius: var(--r-pill); padding: 5px 12px;
+    font-size: 12px; color: var(--muted);
+    box-shadow: var(--glass-shadow); backdrop-filter: blur(18px) saturate(170%);
+  }
+  .count-badge span { color: var(--text); font-weight: 600; }
+
+  /* ─── PROMO BANNER ─── */
+  .promo-banner {
+    max-width: 1168px; margin: 18px auto 4px; padding: 0 16px;
+  }
+  .promo-banner-inner {
+    position: relative; overflow: hidden;
+    min-height: 150px; padding: 24px;
+    border: 1px solid rgba(255,255,255,.86); border-radius: 26px;
+    background:
+      radial-gradient(circle at 12% 15%, rgba(255,255,255,.45), transparent 9rem),
+      linear-gradient(125deg, rgba(8,120,58,.88) 0%, rgba(18,161,80,.76) 52%, rgba(114,211,148,.66) 100%);
+    color: #fff; box-shadow: 0 24px 60px rgba(8,120,58,.2), inset 0 1px 1px rgba(255,255,255,.55);
+    backdrop-filter: blur(22px) saturate(180%);
+    -webkit-backdrop-filter: blur(22px) saturate(180%);
+    display: flex; align-items: center; justify-content: space-between; gap: 22px;
+  }
+  .promo-banner-inner::after {
+    content: "IC"; position: absolute; left: -10px; bottom: -55px;
+    color: rgba(255,255,255,.09); font-size: 160px; line-height: 1;
+    letter-spacing: -16px; direction: ltr;
+  }
+  .promo-banner-inner::before {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(115deg, rgba(255,255,255,.42), transparent 28%, transparent 66%, rgba(255,255,255,.18));
+    pointer-events: none;
+  }
+  .promo-copy { position: relative; z-index: 1; max-width: 610px; }
+  .promo-kicker {
+    display: inline-flex; align-items: center; gap: 6px;
+    margin-bottom: 9px; padding: 4px 9px; border-radius: var(--r-pill);
+    background: rgba(255,255,255,.16); border: 1px solid rgba(255,255,255,.25);
+    font-size: 10px;
+  }
+  .promo-copy h2 { font-size: clamp(21px, 5vw, 34px); line-height: 1.15; margin-bottom: 7px; }
+  .promo-copy p { color: rgba(255,255,255,.78); font-size: 12px; }
+  .promo-action {
+    position: relative; z-index: 1; flex-shrink: 0;
+    border: 1px solid rgba(255,255,255,.55); border-radius: var(--r-pill);
+    background: rgba(255,255,255,.76); color: var(--green-dark); padding: 11px 16px;
+    font-size: 12px; cursor: pointer; transition: var(--trans);
+    box-shadow: inset 0 1px 1px #fff, 0 8px 24px rgba(4,48,27,.14);
+    backdrop-filter: blur(14px);
+  }
+  .promo-action:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(4,48,27,.18); }
+  @media (max-width: 600px) {
+    .promo-banner-inner { min-height: 190px; align-items: flex-start; flex-direction: column; }
+    .promo-action { margin-top: auto; }
+  }
+
+  /* ─── FILTERS ─── */
+  .filters-wrap {
+    max-width: 1200px; margin: 20px auto 0;
+    padding: 0 16px;
+    overflow: visible;
+  }
+  .filters-wrap::-webkit-scrollbar { display: none; }
+  .filters {
+    display: flex; flex-wrap: wrap; justify-content: center;
+    gap: 8px; width: 100%; padding-bottom: 2px;
+  }
+  .filter-btn {
+    background: var(--glass); border: 1px solid var(--glass-border);
+    color: var(--muted); border-radius: var(--r-pill);
+    padding: 7px 14px; font-family: inherit; font-size: 13px;
+    cursor: pointer; transition: var(--trans); white-space: nowrap;
+    font-weight: 500;
+    box-shadow: inset 0 1px 1px rgba(255,255,255,.95), 0 5px 16px rgba(7,61,36,.05);
+    backdrop-filter: blur(16px) saturate(160%);
+    transform: translateY(0);
+  }
+  .filter-btn:hover { transform: translateY(-2px); }
+  .filter-btn:hover { color: var(--text); border-color: var(--dim); }
+  .filter-btn.active {
+    background: linear-gradient(135deg, var(--green-dark), var(--green));
+    color: #fff; border-color: transparent; box-shadow: 0 6px 16px rgba(18,161,80,.18);
+  }
+  .filter-btn.latest-filter { display: inline-flex; align-items: center; gap: 5px; }
+
+  /* ─── GRID ─── */
+  main {
+    max-width: 1200px; margin: 0 auto;
+    padding: 20px 12px 80px;
+  }
+  .grid {
+    columns: 2;
+    column-gap: 10px;
+  }
+  @media (min-width: 480px)  { .grid { column-gap: 12px; } }
+  @media (min-width: 640px)  { .grid { columns: 3; } }
+  @media (min-width: 900px)  { .grid { columns: 4; column-gap: 14px; } }
+  @media (min-width: 1100px) { .grid { columns: 5; } }
+
+  /* ─── CARD ─── */
+  .card {
+    background:
+      linear-gradient(145deg, rgba(255,255,255,.18), rgba(255,255,255,.06)),
+      rgba(255,255,255,.1);
+    border: .6px solid rgba(255,255,255,.86);
+    border-radius: 18px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform .22s cubic-bezier(.4,0,.2,1),
+                box-shadow .22s cubic-bezier(.4,0,.2,1),
+                border-color .22s;
+    position: relative;
+    box-shadow:
+      0 12px 28px rgba(3,42,24,.1),
+      0 3px 8px rgba(5,65,38,.06),
+      inset 0 1px 1px rgba(255,255,255,.98),
+      inset 1px 0 1px rgba(255,255,255,.4),
+      inset 0 -1px 2px rgba(4,71,40,.08);
+    backdrop-filter: blur(18px) saturate(110%);
+    -webkit-backdrop-filter: blur(18px) saturate(110%);
+    display: inline-block; width: 100%; vertical-align: top;
+    margin-bottom: 10px; break-inside: avoid;
+  }
+  .card::before {
+    content: ""; position: absolute; inset: auto 1px 0; height: 72px; z-index: 4;
+    border-radius: inherit; pointer-events: none;
+    background:
+      linear-gradient(110deg, rgba(255,255,255,.42), transparent 18%, transparent 78%, rgba(255,255,255,.1));
+    box-shadow:
+      inset 0 0 0 1px rgba(255,255,255,.26),
+      inset 0 0 12px rgba(255,255,255,.1);
+    opacity: .82;
+    transition: opacity .3s ease;
+  }
+  .card::after {
+    content: ""; position: absolute; z-index: 4; pointer-events: none;
+    top: -65%; left: -80%; width: 52%; height: 220%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,.72), transparent);
+    filter: blur(2px); transform: rotate(20deg); opacity: 0;
+    transition: left .7s cubic-bezier(.22,.61,.36,1), opacity .2s;
+  }
+  .card:hover {
+    transform: perspective(900px) translateY(-5px) rotateX(1.5deg);
+    box-shadow: var(--shadow);
+    border-color: rgba(255,255,255,.98);
+    box-shadow:
+      0 18px 38px rgba(3,55,30,.14),
+      0 5px 12px rgba(3,55,30,.07),
+      inset 0 1px 1px #fff,
+      inset 0 -1px 2px rgba(4,71,40,.08);
+  }
+  .card:hover::before { opacity: .95; }
+  .card:hover::after { left: 135%; opacity: .7; }
+  .card:active { transform: translateY(-1px) scale(.98); }
+  .card-img-wrap {
+    position: relative; overflow: hidden;
+    margin: 3px; border-radius: 15px;
+    background:
+      radial-gradient(circle at 30% 20%, rgba(255,255,255,.95), transparent 55%),
+      linear-gradient(145deg, rgba(255,255,255,.44), rgba(255,255,255,.2));
+    border: .5px solid rgba(255,255,255,.6);
+    box-shadow:
+      inset 0 1px 1px rgba(255,255,255,.7),
+      inset 0 -3px 8px rgba(3,54,30,.05);
+    display: grid; place-items: center;
+  }
+  .card-img-wrap.image-portrait { aspect-ratio: 3 / 4; }
+  .card-img-wrap.image-tall { aspect-ratio: 9 / 14; }
+  .card-img-wrap.image-square { aspect-ratio: 1 / 1; }
+  .card-img-wrap.image-landscape { aspect-ratio: 4 / 3; }
+  .card-img-wrap.image-wide { aspect-ratio: 16 / 9; }
+  .new-badge {
+    position: absolute; top: 9px; right: 9px; z-index: 3;
+    color: #fff; background: linear-gradient(135deg, var(--green-dark), var(--green));
+    border: 1px solid rgba(255,255,255,.55); border-radius: var(--r-pill);
+    padding: 4px 8px; font-size: 9px; box-shadow: 0 5px 16px rgba(8,120,58,.24);
+  }
+  .card-img-wrap img {
+    width: 100%; height: 100%;
+    object-fit: contain;
+    display: block;
+    transition: transform .35s cubic-bezier(.4,0,.2,1);
+    filter: none;
+  }
+  .card-img-wrap video {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+  }
+  .gemini-badge {
+    display: inline-flex; align-items: center; gap: 4px;
+    color: #315F91; background: rgba(232,242,255,.78);
+    border: 1px solid rgba(150,190,235,.55); border-radius: var(--r-pill);
+    padding: 1px 6px; font-size: 8px;
+  }
+  .card:hover .card-img-wrap img { transform: scale(1.04); filter: none; }
+  .card-img-wrap.image-error::after {
+    content: "تعذر تحميل الصورة"; color: var(--muted); font-size: 11px;
+    position: absolute; inset: 0; display: grid; place-items: center;
+  }
+  .card-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,.7) 0%, transparent 60%);
+    opacity: 0; transition: opacity .22s;
+    display: flex; align-items: flex-end; padding: 12px;
+  }
+  .card:hover .card-overlay { opacity: 1; }
+  .card-overlay-hint {
+    font-size: 11px; color: rgba(255,255,255,.8);
+    display: flex; align-items: center; gap: 4px;
+  }
+  .card-body {
+    padding: 8px 10px 11px; position: relative; z-index: 5;
+    background:
+      linear-gradient(to bottom, rgba(255,255,255,.18), rgba(205,250,235,.09)),
+      rgba(255,255,255,.04);
+    border-top: 1px solid rgba(255,255,255,.4);
+  }
+  .cat-pill {
+    display: inline-block; border-radius: var(--r-pill);
+    padding: 1px 7px; font-size: 9px; font-weight: 600;
+    letter-spacing: .3px; margin-bottom: 4px;
+    text-transform: uppercase;
+  }
+  .card-title {
+    font-size: 12px; font-weight: 500; line-height: 1.3;
+    color: var(--text); margin-bottom: 4px;
+    display: -webkit-box; -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical; overflow: hidden;
+  }
+  .card-tags { display: flex; flex-wrap: wrap; gap: 3px; }
+  .tag {
+    font-size: 9px; color: var(--muted); background: rgba(235,251,245,.28);
+    border-radius: var(--r-pill); padding: 1px 6px;
+    border: .7px solid rgba(255,255,255,.92);
+  }
+
+  /* ─── EMPTY STATE ─── */
+  .empty {
+    width: 100%; text-align: center;
+    padding: 60px 20px; color: var(--muted);
+    break-inside: avoid; column-span: all;
+  }
+  .empty-icon { font-size: 40px; margin-bottom: 12px; }
+  .empty h3 { font-size: 17px; color: var(--text); margin-bottom: 6px; }
+  .empty p { font-size: 14px; }
+  .empty-reset {
+    margin-top: 16px; padding: 9px 16px;
+    color: #fff; background: linear-gradient(135deg, var(--green-dark), var(--green));
+    border: 0; border-radius: var(--r-pill); cursor: pointer;
+    transition: var(--trans);
+  }
+  .empty-reset:hover { transform: translateY(-2px); }
+
+  /* ─── MODAL OVERLAY ─── */
+  .modal-bg {
+    position: fixed; inset: 0; z-index: 100;
+    background: rgba(4,48,27,.58);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    display: flex; align-items: flex-end;
+    opacity: 0; pointer-events: none;
+    transition: opacity .28s cubic-bezier(.4,0,.2,1);
+  }
+  .modal-bg.open { opacity: 1; pointer-events: all; }
+
+  @media (min-width: 640px) {
+    .modal-bg { align-items: center; justify-content: center; }
+  }
+
+  /* ─── MODAL SHEET ─── */
+  .modal {
+    background: rgba(248,255,250,.74);
+    border: 1px solid rgba(255,255,255,.9);
+    border-radius: var(--r-modal) var(--r-modal) 0 0;
+    width: 100%; max-height: 92dvh;
+    overflow-y: auto; -webkit-overflow-scrolling: touch;
+    transform: translateY(100%);
+    transition: transform .32s cubic-bezier(.25,.8,.25,1);
+    position: relative;
+    box-shadow: 0 30px 90px rgba(4,48,27,.28), inset 0 1px 1px #fff;
+    backdrop-filter: blur(32px) saturate(175%);
+    -webkit-backdrop-filter: blur(32px) saturate(175%);
+  }
+  .modal-bg.open .modal { transform: translateY(0); }
+
+  @media (min-width: 640px) {
+    .modal {
+      border-radius: var(--r-modal);
+      width: min(540px, 94vw);
+      max-height: 88dvh;
+      transform: scale(.94) translateY(16px);
+      transition: transform .28s cubic-bezier(.25,.8,.25,1),
+                  opacity .28s;
+      opacity: 0;
+    }
+    .modal.image-landscape { width: min(880px, 94vw); }
+    .modal.image-square { width: min(650px, 94vw); }
+    .modal.image-portrait { width: min(500px, 94vw); }
+    .modal-bg.open .modal {
+      transform: scale(1) translateY(0);
+      opacity: 1;
+    }
+  }
+
+  /* Drag handle */
+  .drag-handle {
+    width: 36px; height: 4px;
+    background: var(--border); border-radius: 2px;
+    margin: 10px auto 0;
+  }
+  @media (min-width: 640px) { .drag-handle { display: none; } }
+
+  .modal-img-wrap {
+    width: 100%; overflow: hidden; border-radius: 0;
+    max-height: min(36dvh, 340px); background: rgba(255,255,255,.3);
+    display: grid; place-items: center;
+  }
+  @media (min-width: 640px) {
+    .modal-img-wrap { border-radius: calc(var(--r-modal) - 1px) calc(var(--r-modal) - 1px) 0 0; }
+  }
+  .modal-img-wrap img, .modal-img-wrap video { width: auto; max-width: 100%; height: auto; max-height: min(36dvh, 340px); object-fit: contain; display: block; margin: auto; }
+  .hidden-media { display: none !important; }
+  .modal-body { padding: 20px 20px 32px; }
+  .modal-meta {
+    display: flex; align-items: center; gap: 8px;
+    margin-bottom: 12px;
+  }
+  .modal-title {
+    font-size: 18px; font-weight: 600; letter-spacing: -.3px;
+    margin-bottom: 14px; line-height: 1.25;
+  }
+  .modal-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 18px; }
+  .prompt-label {
+    font-size: 11px; font-weight: 600; letter-spacing: .8px;
+    text-transform: uppercase; color: var(--dim);
+    margin-bottom: 8px;
+  }
+  .prompt-box {
+    background: rgba(255,255,255,.5); border: 1px solid rgba(255,255,255,.9);
+    border-radius: 10px; padding: 14px 15px;
+    font-family: 'DM Sans', system-ui, sans-serif;
+    font-size: 14px; line-height: 1.65;
+    color: #245A3C;
+    margin-bottom: 16px;
+    font-style: italic;
+    word-break: break-word;
+    box-shadow: inset 0 1px 1px #fff, 0 8px 28px rgba(7,61,36,.06);
+    white-space: pre-wrap;
+    max-height: 128px;
+    overflow: hidden;
+    position: relative;
+    transition: max-height .35s ease;
+  }
+  .prompt-box:not(.expanded)::after {
+    content: ""; position: absolute; right: 0; bottom: 0; left: 0; height: 52px;
+    pointer-events: none;
+    background: linear-gradient(to bottom, transparent, rgba(255,255,255,.96));
+  }
+  .prompt-box.expanded { max-height: none; overflow: visible; }
+  .expand-prompt-btn {
+    width: 100%; margin: -8px 0 10px; padding: 8px 12px;
+    color: var(--green-dark); background: rgba(255,255,255,.42);
+    border: 1px solid rgba(255,255,255,.88); border-radius: 9px;
+    cursor: pointer; font-size: 11px; transition: var(--trans);
+  }
+  .expand-prompt-btn:hover { background: rgba(255,255,255,.72); }
+  .copy-btn {
+    width: 100%; padding: 14px;
+    background: linear-gradient(135deg, var(--green-dark), var(--green)); color: #fff;
+    border: none; border-radius: 10px;
+    font-family: inherit; font-size: 15px; font-weight: 600;
+    cursor: pointer; transition: var(--trans);
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    letter-spacing: -.2px;
+    position: relative;
+    overflow: visible;
+  }
+  .copy-btn:hover { background: linear-gradient(135deg, #056832, #0C9146); }
+  .copy-btn:active { transform: scale(.97); }
+  .copy-btn.copied {
+    background: var(--green-soft); color: var(--green-dark);
+    border: 1px solid #9ED9B3;
+  }
+  .copy-btn.copied svg { color: var(--green-dark); }
+  .copy-pop {
+    position: absolute; inset: 50% auto auto 50%;
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--pop-color);
+    pointer-events: none; z-index: 5;
+    animation: copyPop .7s cubic-bezier(.15,.75,.25,1) forwards;
+  }
+  .modal-close {
+    position: absolute; top: 14px; left: 14px; z-index: 10;
+    background: rgba(255,255,255,.88); border: 1px solid rgba(12,127,66,.18);
+    color: var(--green-dark); border-radius: 50%;
+    width: 32px; height: 32px; display: flex; align-items: center;
+    justify-content: center; cursor: pointer; transition: var(--trans);
+    backdrop-filter: blur(6px);
+  }
+  .modal-close:hover { background: var(--green-soft); }
+
+  /* ─── SCROLLBAR ─── */
+  .modal::-webkit-scrollbar { width: 4px; }
+  .modal::-webkit-scrollbar-track { background: transparent; }
+  .modal::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  /* ─── FOOTER ─── */
+  footer {
+    padding: 28px 16px 34px; border-top: 1px solid rgba(255,255,255,.8);
+  }
+  .footer-inner {
+    max-width: 1168px; margin: 0 auto; padding: 20px;
+    display: flex; align-items: center; justify-content: center; gap: 13px;
+    color: var(--muted); font-size: 11px; text-align: right;
+    background: rgba(255,255,255,.34); border: .7px solid rgba(255,255,255,.9);
+    border-radius: 18px; box-shadow: 0 10px 30px rgba(7,61,36,.07), inset 0 1px 1px #fff;
+    backdrop-filter: blur(20px);
+  }
+  .footer-logo {
+    width: 44px; height: 44px; border-radius: 13px;
+    object-fit: cover; flex-shrink: 0;
+    box-shadow: 0 7px 18px rgba(7,61,36,.13);
+  }
+  .footer-copy strong { display: block; color: var(--text); font-size: 12px; margin-bottom: 2px; }
+  @media (max-width: 480px) {
+    .footer-inner { justify-content: flex-start; }
+  }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes copyPop {
+    0% { opacity: 1; transform: translate(-50%, -50%) rotate(var(--pop-angle)) translateX(0) scale(.4); }
+    65% { opacity: 1; transform: translate(-50%, -50%) rotate(var(--pop-angle)) translateX(var(--pop-distance)) scale(1); }
+    100% { opacity: 0; transform: translate(-50%, -50%) rotate(var(--pop-angle)) translateX(calc(var(--pop-distance) + 14px)) scale(.15); }
+  }
+  .card { animation: fadeUp .32s cubic-bezier(.4,0,.2,1) both; }
+  .card:nth-child(1)  { animation-delay: .03s; }
+  .card:nth-child(2)  { animation-delay: .06s; }
+  .card:nth-child(3)  { animation-delay: .09s; }
+  .card:nth-child(4)  { animation-delay: .12s; }
+  .card:nth-child(5)  { animation-delay: .14s; }
+  .card:nth-child(6)  { animation-delay: .16s; }
+  .card:nth-child(n+7){ animation-delay: .18s; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .card { animation: none; }
+    .card:hover { transform: none; }
+    * { transition-duration: 0.01ms !important; }
+    .copy-pop { display: none; }
+  }
+  @supports not ((backdrop-filter: blur(10px)) or (-webkit-backdrop-filter: blur(10px))) {
+    header, .card, .modal, #search, .filter-btn, .count-badge { background: rgba(255,255,255,.94); }
+    .promo-banner-inner { background: linear-gradient(125deg, #08783A, #12A150 55%, #72D394); }
+  }
+</style>
+</head>
+<body class="auth-checking">
+<div class="auth-gate" id="auth-gate">
+  <section class="auth-card" aria-labelledby="auth-title">
+    <img class="auth-logo" src="./llm-logo.png" alt="">
+    <h1 id="auth-title">الدخول إلى موسوعة LLM</h1>
+    <p>أدخل رقم طلبك المكتمل في متجرنا للوصول إلى المكتبة.</p>
+    <div class="auth-status" id="auth-status">جارٍ التحقق من جلسة الدخول…</div>
+    <form class="auth-form" id="auth-form" hidden>
+      <label for="order-number">رقم الطلب</label>
+      <input class="auth-input" id="order-number" name="orderNumber" inputmode="numeric" autocomplete="one-time-code" placeholder="مثال: 12345678" required>
+      <button class="auth-submit" id="auth-submit" type="submit">دخول إلى المكتبة</button>
+      <p class="auth-message" id="auth-message" role="alert"></p>
+    </form>
+  </section>
+</div>
+<!-- ─── HEADER ─── -->
+<header>
+  <div class="header-inner">
+    <a class="logo" href="#">
+      <div class="logo-icon"><img src="./llm-logo.png" alt="شعار LLM"></div>
+      موسوعة LLM
+    </a>
+    <div class="search-wrap">
+      <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+        <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+      </svg>
+      <input id="search" type="search" aria-label="ابحث في الأوامر" placeholder="ابحث في الأوامر…" autocomplete="off" autocorrect="off" spellcheck="false">
+    </div>
+    <button class="logout-btn" id="logout-btn" type="button">تسجيل الخروج</button>
+  </div>
+</header>
+
+<!-- ─── HERO ─── -->
+<section class="hero">
+  <h1>إمكانيات بلا حدود،<br><em>ومجالات مالها نهاية.</em></h1>
+  <p>أكبر وأشمل موسوعة للذكاء الاصطناعي باللغة العربية.</p>
+  <div class="count-badge">
+    <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+      <path d="M4 6h16M4 12h16M4 18h7"/>
+    </svg>
+    <span id="total-count">0</span> أمرًا في المكتبة
+  </div>
+</section>
+
+<!-- ─── PROMO BANNER ─── -->
+<section class="promo-banner">
+  <div class="promo-banner-inner">
+    <div class="promo-copy">
+      <span class="promo-kicker">✦ استخدم الذكاء… بذكاء</span>
+      <h2>من الخيال إلى الواقع.</h2>
+      <p>حوّل أفكارك إلى صور فنية وشخصية وإعلانية في ثوانٍ. بدون استوديو، بدون مصوّر… ضغطة وحدة تكفي.</p>
+    </div>
+    <button class="promo-action" id="show-latest-btn">استعرض أحدث الأوامر</button>
+  </div>
+</section>
+
+<!-- ─── FILTERS ─── -->
+<div class="filters-wrap">
+  <div class="filters" id="filters">
+    <button class="filter-btn active" data-cat="all">الكل</button>
+    <button class="filter-btn latest-filter" data-cat="latest">✦ الأحدث</button>
+    <button class="filter-btn" data-cat="بزنس ومنتجات">بزنس ومنتجات</button>
+    <button class="filter-btn" data-cat="صور شخصية">صور شخصية</button>
+    <button class="filter-btn" data-cat="شعارات">شعارات</button>
+    <button class="filter-btn" data-cat="منوعة">منوعة</button>
+    <button class="filter-btn" data-cat="فيديو">فيديو</button>
+  </div>
+
+<!-- ─── GRID ─── -->
+<main>
+  <div class="grid" id="grid"></div>
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <img class="footer-logo" src="./llm-footer-logo.jpeg" alt="شعار LLM">
+    <div class="footer-copy">
+      <strong>موقع LLM</strong>
+      جميع الحقوق محفوظة © 2026
+    </div>
+  </div>
+</footer>
+</div>
+
+<!-- ─── MODAL ─── -->
+<div class="modal-bg" id="modal-bg" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-hidden="true">
+  <div class="modal" id="modal">
+    <div class="drag-handle"></div>
+    <button class="modal-close" id="modal-close" aria-label="إغلاق">
+      <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+        <path d="M18 6 6 18M6 6l12 12"/>
+      </svg>
+    </button>
+    <div class="modal-img-wrap">
+      <img id="modal-img" src="" alt="">
+      <video id="modal-video" class="hidden-media" controls playsinline muted loop></video>
+    </div>
+    <div class="modal-body">
+      <div class="modal-meta">
+        <span class="cat-pill" id="modal-cat-pill"></span>
+      </div>
+      <h2 class="modal-title" id="modal-title"></h2>
+      <div class="modal-tags" id="modal-tags"></div>
+      <div class="prompt-label">الأمر كاملًا</div>
+      <div class="prompt-box" id="modal-prompt"></div>
+      <button class="expand-prompt-btn" id="expand-prompt-btn" type="button">عرض الأمر كاملًا</button>
+      <button class="copy-btn" id="copy-btn">
+        <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+        </svg>
+        نسخ الأمر
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── PROMPT DATA ───
+const PROMPTS = [
+  {
+    "id": 1,
+    "title": "موك اب ايفون لأي صورة",
+    "category": "بزنس ومنتجات",
+    "tags": [
+      "بزنس ومنتجات"
+    ],
+    "image": "./images/IMG_8819.png",
+    "prompt": "Generate A professional-grade, photorealistic mockup featuring a 3D rendered black iPhone Pro, floating gracefully in the center of the frame, showing its front-facing screen from a subtle angled perspective. The screen displays the image attached perfectly fitted to its display. The background is a clean, minimalist solid color perfectly color-matched to the tones of the provided image, creating a sleek, seamless look where the device and background flow together effortlessly. The lighting is soft and even, highlighting the curves of the device and creating a cohesive, high-end presentation ideal for showcasing brand identity. The image size is 3:4 (vertical orientation)."
+  },
+  {
+    "id": 2,
+    "title": "9 ستوريات",
+    "category": "بزنس ومنتجات",
+    "tags": [
+      "بزنس ومنتجات"
+    ],
+    "image": "./images/IMG_9574.JPG.jpeg",
+    "prompt": "Generate a high-end social media marketing board in a 9:16 story layout composed of 9 posts arranged in a clean 3×3 grid, where each tile represents a different campaign visual but all are unified under one strong Arabic brand identity, using the attached product as the core element across all variations (using real product assets with slight professional redesign for consistency and polish while keeping the identity recognizable), combining product-focused shots and conceptual visuals in a design style inspired by modern Arabic advertising that blends bold Arabic typography, cultural elements, and product storytelling, including variations such as hero product shots, lifestyle usage scenes, creative compositions with patterns, cultural illustrations, and minimal abstract layouts while maintaining a cohesive color palette and consistent lighting style, ensuring each post features Arabic text only with strong modern typography integrated into the composition through headlines, short phrases, and campaign messages with clean hierarchy, balanced spacing, no clutter, and precise grid alignment where text interacts naturally with visuals through overlapping, layering, or embedding into shapes, incorporating a mix of flat lay product shots, centered hero compositions, creative editorial layouts, and subtle 3D or layered design elements, with realistic and consistent lighting across all posts featuring soft shadows, depth, and a high-end commercial look while keeping textures sharp and materials believable to avoid any AI-generated feel, and ensuring the entire board appears as a cohesive premium agency-level campaign presentation ready for Instagram story rollout in ultra-high resolution (4K+), with sharp details, clean color grading, and no artifacts or distortion, as if designed by a top-tier Arabic creative agency."
+  },
+  {
+    "id": 3,
+    "title": "ستوري واحد",
+    "category": "بزنس ومنتجات",
+    "tags": [
+      "بزنس ومنتجات"
+    ],
+    "image": "./images/image.png",
+    "prompt": "Generate a high-end social media marketing vertical composition (9:16) designed for an Instagram Story, without any platform UI elements such as time, username, comments, or interface overlays, presented as a clean full-screen campaign visual. Use the attached product as the core element, incorporating real product assets while allowing slight professional redesign for consistency and polish, ensuring the original identity remains recognizable. The design should reflect modern, global advertising aesthetics, combining bold, clean Arabic typography with strong product storytelling in a single cohesive composition suitable for a broad mass audience.\n    \n    The layout should follow a strong visual direction such as a hero product-focused composition (centered or dominant), a lifestyle-inspired usage scene, a creative editorial layout with patterns, or a minimal abstract premium style, while maintaining a refined and cohesive color palette based on earthy tones, reds, greens, and beige. Lighting must be consistent and high-end, with soft shadows, realistic depth, natural reflections, and clean highlights to achieve a premium commercial look.\n    \n    Include Arabic text only, using strong, modern typography with a clear headline or short campaign phrase, maintaining a clean hierarchy, balanced spacing, and seamless integration into the composition through layering, overlapping, or embedding within shapes, ensuring clarity without clutter. The design should emphasize a strong product presence (hero or close-up), supported by subtle background elements that enhance the composition without distraction, along with light depth through layering and soft 3D-like shadows.\n    \n    The final visual must feel premium, polished, and agency-level, with sharp details, realistic textures, and no AI artifacts or distortions, suitable for immediate use in a mass-market campaign. Ensure ultra-high resolution (4K+), refined color grading, and a cohesive, professional finish that reflects top-tier global creative direction."
+  },
+  {
+    "id": 4,
+    "title": "أعلان مشروب",
+    "category": "بزنس ومنتجات",
+    "tags": [
+      "بزنس ومنتجات"
+    ],
+    "image": "./images/IMG_8962.png",
+    "prompt": "Turn this image into a fresh, dynamic lifestyle ad with a modern, youthful vibe. A hand extends forward holding the product, framed prominently in the foreground, with the background softly blurred. The scene is set outdoors on a sunny day, with a clear blue sky above and hints of greenery and red railing elements for added depth and contrast. Use a low-angle close-up shot to emphasize the product, making it appear bold and eye-catching. Camera settings: wide aperture (f/2.2–f/2.8) for shallow depth of field, ISO 100 for crisp daylight exposure, and fast shutter speed (1/1000s) to freeze any subtle movement. For editing, keep the colors soft but vibrant—slightly pastel yet punchy. Warm up the highlights for a sunny glow, add a gentle vignette to draw attention toward the product, and smooth out background tones to keep focus on the hand and foreground object. The final look should feel playful, modern, and refreshing, ideal for beverage or lifestyle branding."
+  },
+  {
+    "id": 5,
+    "title": "هوية بصرية لمشروعك",
+    "category": "بزنس ومنتجات",
+    "tags": [
+      "بزنس ومنتجات"
+    ],
+    "image": "./images/IMG_8743.png",
+    "prompt": "A professional brand identity bento-grid showcase for a brand named \"(اسم مشروعك )\" (المجال)). The image is split into a cohesive layout of rectangular cards featuring:\n    1. A dynamic key visual showing the product or service in action with a logo overlay.\n    2. A social media mockup post with bold typography and a thematic photo.\n    3. A minimalist logo construction grid diagram on a solid color background.\n    4. A vertical advertising poster featuring a close-up macro texture related to the niche.\n    5. A brand color palette section with 4 matching swatches.\nThe design style, color scheme, and objects are strictly thematic and culturally relevant to the \\{saudi). High-end graphic design, Behance trend, 8k, photorealistic mockups."
+  },
+  {
+    "id": 6,
+    "title": "هوية بصرية لمشروعك 2",
+    "category": "بزنس ومنتجات",
+    "tags": [
+      "بزنس ومنتجات"
+    ],
+    "image": "./images/IMG_8911.png",
+    "prompt": "Create a high-quality, professional Arabic visual identity design based strictly on the provided reference image. The goal is to develop a cohesive Arabic brand identity for the product using the exact style, composition, and color palette shown.\n    The design must include:\n•\tA complete visual identity system (brand colors, Arabic typography, layout style)\n•\tClearly defined color palette with HEX codes displayed next to each color\n•\tArabic font pairing suggestions (headline + body font) presented visually\n•\tElegant Arabic typography and calligraphy integrated into the design\n•\tA modern, clean, and premium composition adapted to Arabic aesthetics\n    The output should be a multi-section design board that includes:\n•\tBrand color palette with labeled color codes\n•\tArabic typography showcase with sample Arabic text\n•\tLogo or product name styled in Arabic\n•\tInstagram marketing post mockup in Arabic, designed specifically for advertising campaigns\n•\tSocial media-ready layout optimized for engagement and conversions (Arabic audience)\n    Style requirements:\n•\tHigh resolution (4K or higher)\n•\tSharp, clean, and professional\n•\tMinimalist but visually striking\n•\tBalanced spacing and grid-based layout\n•\tRight-to-left (RTL) layout alignment\n•\tConsistent branding across all elements\n    Additional details:\n•\tDesigned specifically for Arabic marketing campaigns and brand identity building\n•\tInclude realistic mockups for Instagram posts (Arabic feed format)\n•\tUse modern Arabic design trends suitable for digital branding\n•\tEnsure all elements align with the product’s theme and Arabic target audience\n•\tIncorporate subtle shadows, lighting, and depth for a premium feel\n    Important:\n•\tThe final image should look like a complete Arabic brand guideline + marketing kit in one frame\n•\tMaintain consistency with the reference image in terms of colors, tone, and style\n•\tEnsure all text is in Arabic and visually balanced\n•\tMake it visually suitable for presentation to clients or use in real Arabic campaigns"
+  },
+  {
+    "id": 7,
+    "title": "افكار ستوري - instagram \\ Snapchat",
+    "category": "بزنس ومنتجات",
+    "tags": [
+      "بزنس ومنتجات"
+    ],
+    "image": "./images/IMG_8892.png",
+    "prompt": "Create a high-quality visual marketing presentation in a vertical format, designed as a clean and minimalist collage focused exclusively on Snapchat and Instagram Stories, tailored specifically for the Saudi market with a strong professional and premium marketing approach.\n    The design should feature a well-organized, balanced collage composed of structured visual blocks that simulate full-screen story formats. Focus primarily on image-driven content with minimal, refined Arabic text integrated naturally into the visuals.\n    Include:\n•\tMultiple Snapchat and Instagram Story concepts (full-screen vertical layouts)\n•\tRealistic story UI mockups (progress bars, minimal interface hints)\n•\tProduct-focused visuals, lifestyle integration, and premium storytelling\n•\tVariations such as hero shots, close-ups, product-in-use scenes, and aesthetic compositions\n    Focus on:\n•\tProfessional, polished visuals that reflect a strong brand identity\n•\tHigh-end lighting, soft shadows, and premium color grading\n•\tClean composition"
+  },
+  {
+    "id": 8,
+    "title": "تصميم تغليف لأي منتج",
+    "category": "بزنس ومنتجات",
+    "tags": [
+      "بزنس ومنتجات"
+    ],
+    "image": "./images/IMG_9027.JPG.jpeg",
+    "prompt": "Generate an image a high-end packaging design presentation for the product shown in the attached image, as if it was created by a specialized packaging design agency. The focus must be entirely on developing a perfect, market-ready packaging system tailored to the product, not on redesigning the product itself.\n    \n    Begin with a packaging concept and ideation phase presented in a storyboard-style layout:\n    \n    * Hand-drawn style sketches and layout explorations of the packaging (box, bottle, label, or container)\n    * Multiple structural concepts showing variations in form, opening experience, and packaging style\n    * Construction lines, dielines, folding structure, and packaging mechanics\n    * Notes or annotations that reflect design thinking and decision-making\n    \n    Transition into a final refined packaging solution:\n    \n    * Fully designed packaging with branding, layout, typography, and visual identity applied\n    * Cohesive design system across all packaging elements (primary, secondary, labels, inserts)\n    * Clean, modern, and premium aesthetic aligned with the product category and target audience\n    \n    Include multiple presentation views:\n    \n    * Front, side, and perspective views of the packaging\n    * Opened packaging (unboxing experience)\n    * Flat dieline layout showing print and structure\n    * Close-up sections highlighting print details, finishes, and design precision\n    \n    Focus on:\n    \n    * Packaging usability and user experience (opening, handling, protection)\n    * Visual hierarchy, branding placement, and readability\n    * Realistic packaging formats suitable for the product type\n    * Professional layout and proportion balance\n    \n    Style requirements:\n    \n    * Minimalist, clean, and highly organized composition\n    * White or neutral background with structured sections\n    * Grid-based layout like a real design case study\n    \n    Visual quality:\n    \n    * Ultra-high resolution (4K or higher)\n    * Sharp, precise, and presentation-ready\n    * Realistic rendering with subtle lighting and shadows\n    \n    The final result should look like a complete packaging design case study, showcasing the full creative process from early concepts to a polished final packaging solution in arabic"
+  },
+  {
+    "id": 9,
+    "title": "تفاصيل تغليف لأي منتج",
+    "category": "بزنس ومنتجات",
+    "tags": [
+      "بزنس ومنتجات"
+    ],
+    "image": "./images/IMG_9165.png",
+    "prompt": "Create a high-end technical product ( 5:7) that combines precise line-art blueprint drawings with realistic material and texture visualization, based on the provided reference image.\n    The design should include clean front and side technical drawings of the product (blueprint style) with accurate proportions, minimal line details, and professional dimension lines and measurements, arranged in a structured layout similar to an industrial product specification sheet.\n    Alongside the drawings, include high-resolution realistic material close-ups taken from the actual product as reference, with zoomed-in macro detail shots highlighting texture, surface patterns, and material quality. Add clear callout lines connecting each part of the blueprint drawing to its corresponding real texture sample.\n    Focus heavily on material types (matte, glossy, rubber, metal, glass, plastic, fabric, etc.), surface texture (engraved patterns, quilted surfaces, grain, micro-details), and realistic depth, reflections, and tactile quality.\n    Include labeled sections such as “Premium Materials”, “Surface Texture Detail”, “Material Finish”, and “Structural Design”.\n    Style requirements: minimal, clean, and premium layout, white or light neutral background, sharp and precise line drawings combined with ultra-realistic renders, balanced composition with strong visual hierarchy, and soft shadows with subtle lighting for depth.\n    The final image should look like a professional industrial design presentation board that merges engineering drawings with real product material references, clearly explaining how the product is built and how it feels visually and physically, in ultra-high resolution (4K or higher), optimized for a wide rectangular composition."
+  },
+  {
+    "id": 10,
+    "title": "بناء عرض الهوية البصرية",
+    "category": "بزنس ومنتجات",
+    "tags": [
+      "بزنس ومنتجات"
+    ],
+    "image": "./images/905D0DF4-EBDD-4FAC-92B1-F56B71F9A5E1.png",
+    "prompt": "Create a high-end brand identity presentation scene based on the provided logo, identity, or product, showcasing a complete and cohesive brand system in one visually organized composition.\n    The design should feature a flat lay arrangement of branded items displayed on a clean surface, styled like a professional brand photoshoot.\n    Include a variety of realistic branded elements such as:\n•\tPackaging (boxes, paper bags, takeaway packaging, containers)\n•\tCups or product containers (if applicable)\n•\tStickers and labels\n•\tBusiness cards and printed materials\n•\tMenu or brand cards\n•\tWrapping paper or branded sheets\n•\tSmall accessories related to the product or brand\n    All elements must:\n•\tBe designed using the same logo and visual identity\n•\tFollow a consistent color palette, typography, and graphic style\n•\tLook like real, printed, and physically produced items\n    Focus on:\n•\tConsistency of branding across all items\n•\tClean and balanced composition (flat lay layout)\n•\tRealistic materials (paper texture, print ink, matte/gloss finishes)\n•\tSubtle shadows and depth to enhance realism\n•\tHigh attention to detail in printing, edges, folds, and packaging structure\n    Style requirements:\n•\tMinimalist, modern, and premium aesthetic\n•\tNeutral background (white, beige, or soft tones)\n•\tWarm, natural studio lighting with soft shadows\n•\tOrganized layout with visual harmony and spacing\n    Visual quality:\n•\tUltra-realistic rendering (not overly AI-styled)\n•\tHigh resolution (4K or higher)\n•\tSharp details with clear textures and materials\n    Important:\n•\tThe design should look like a real brand photoshoot, not a mockup sheet\n•\tAvoid clutter or random elements — everything must feel intentional and branded\n•\tMaintain a cohesive identity across all items\n    The final result should look like a complete brand identity system brought to life, presented in a premium, editorial-style flat lay suitable for portfolio, client presentation, or marketing use."
+  },
+  {
+    "id": 11,
+    "title": "تصميم واجهة خارجية",
+    "category": "بزنس ومنتجات",
+    "tags": [
+      "بزنس ومنتجات"
+    ],
+    "image": "./images/A62C96DF-3DCB-4BEE-9281-28533CACAE59.png",
+    "prompt": "Create a highly realistic, architect-designed storefront based on the provided product, logo, or brand identity, where the entire facade, structure, and visual experience are fully driven by the brand’s colors, typography, and overall visual language, ensuring a cohesive and intentional design that looks professionally built and not conceptual. The storefront should feature a strong and clean architectural composition with a clearly defined main facade, incorporating a prominent signage area that displays the brand name or logo using the exact language or languages present in the original product (Arabic, English, or bilingual), executed as realistic 3D signage such as mounted letters, embossed forms, or integrated facade typography. The design must include functional elements such as an entrance, service window, or pickup window depending on the brand type, along with subtle secondary text like product category or service descriptions, all aligned with the brand identity and language. Use materials and finishes that reflect the brand’s character, such as painted surfaces, concrete, metal, or textured panels, with consistent and precise color application across the facade, signage, and architectural details. Focus on real-world architectural accuracy, including proper proportions, structural logic, and buildable details, with clean geometry, balanced composition, and a strong visual hierarchy. Place the storefront in a believable environment with natural daylight, realistic shadows, and subtle context such as a sidewalk, street, cars, or minimal human presence to enhance realism without distraction. Ensure the lighting interacts naturally with materials, including reflections on glass and soft shadow transitions. The overall style should be modern, minimalist, and premium, with branding seamlessly integrated into the architecture rather than applied superficially, and with no clutter or exaggerated elements. The final result must be ultra-photorealistic, in high resolution (4K or higher), with sharp material details, refined finishes, and a convincing real-world presence, as if the storefront has been designed by a professional architect and is ready to be constructed and used."
+  },
+  {
+    "id": 12,
+    "title": "إعلان جرافيك احترافي",
+    "category": "بزنس ومنتجات",
+    "tags": [
+      "بزنس ومنتجات"
+    ],
+    "image": "./images/IMG_9325.png",
+    "prompt": "Create a high-end Arabic graphic advertisement design based on the provided product, using a bold, modern, and minimal composition inspired by editorial food/brand posters, featuring a centered or slightly offset product shot as the main hero element that is large, clear, and visually dominant, with a hand-held or natural presentation of the product if applicable or a realistic lifestyle angle, set against a clean graphic background with a grid pattern or structured layout; include a bold Arabic headline at the top of the design that is fully in Arabic, short, catchy, and marketing-focused, using strong, modern Arabic typography with a thick weight and clean style that feels fully integrated into the design rather than floating randomly; incorporate simple graphic accents such as stars, shapes, or icons, use a limited color palette of 2–3 colors maximum based on the product identity, add subtle shadows or outlines to enhance depth, and ensure the overall style remains minimalist."
+  },
+  {
+    "id": 13,
+    "title": "منشور إعلاني (فلاير) احترافي",
+    "category": "بزنس ومنتجات",
+    "tags": [
+      "بزنس ومنتجات"
+    ],
+    "image": "./images/IMG_9327.png",
+    "prompt": "Create a high-end product flyer design that showcases the product in a visually engaging and professional marketing style, inspired by expert InDesign, digital design, and marketing standards.\n    The flyer should focus on presenting the product’s key features and benefits in a clear, attractive, and persuasive way, using the same language shown on the product (Arabic or English depending on the reference).\n    Include:\n•\tA main hero product image (highly polished, professional lighting, premium composition)\n•\tSupporting product visuals (angles, close-ups, lifestyle usage if relevant)\n•\tClearly structured feature highlights and selling points\n•\tShort, impactful marketing phrases and captions\n•\tOptional sections like “Key Benefits”, “Why Choose This Product”, or “Product Highlights”\n    Design style:\n•\tModern, clean, and highly professional layout\n•\tInspired by premium commercial flyers and brand campaigns\n•\tBalanced typography and strong visual hierarchy\n•\tDynamic but organized composition (not cluttered)\n    Visual direction:\n•\tMake the flyer feel alive and engaging using depth, lighting, and composition\n•\tUse color grading that matches the product identity\n•\tIncorporate subtle design elements (shapes, gradients, overlays) to enhance energy\n•\tEmphasize the product as the main focus\n    Typography:\n•\tUse the same language as the product\n•\tClean, readable fonts with strong headline presence\n•\tMinimal but effective text placement\n    Quality:\n•\tUltra-high resolution (4K to 8K)\n•\tSharp details, realistic shadows, and premium finish\n•\tSuitable for digital campaigns and social media ads\n    The final result should look like a professional marketing flyer created by a top-tier designer, ready for real advertising use, visually compelling, informative, and tailored to the product."
+  },
+  {
+    "id": 14,
+    "title": "اسكتش تصميم ازياء (Fashion Sketch)",
+    "category": "بزنس ومنتجات",
+    "tags": [
+      "بزنس ومنتجات"
+    ],
+    "image": "./images/image%201.png",
+    "prompt": "Create a professional fashion design sketch based on the provided clothing or abaya image, transforming it into a high-end designer illustration while preserving the exact structure, proportions, and details of the original piece as if drawn by an experienced fashion designer for a collection sheet, ensuring the sketch remains highly accurate to the real garment including silhouette, cuts, seams, layering, fabric flow, sleeve design, trims, and construction details without altering or redesigning any element, and present the outfit on a full-body fashion figure in an elegant, neutral pose with refined proportions typical of couture illustration while keeping the main focus on the garment itself, using a hand-drawn mixed technique style that combines clean ink linework with soft marker or digital brush shading to express depth, folds, draping, and fabric weight, especially emphasizing the natural flow and layering of abayas, while adding designer-style annotations and callout lines around the figure that point to key details such as fabric type, lace, embroidery, cuts, sleeves, openings, and layering, and all annotations and labels must be written in Arabic with clear, modern, professional typography, arranged in a clean editorial layout, and including small fabric swatches or texture samples on the side to represent materials, all placed on a minimal white or soft neutral background with subtle construction sketch lines to enhance authenticity, focusing on precise tailoring details, realistic fabric behavior, elegant proportions, and a clear visual hierarchy, maintaining a high-end couture fashion illustration style with no clutter or unnecessary elements, ensuring the garment stays 100% true to the original reference, and rendering the final result in ultra-high resolution with sharp linework, smooth shading, and a polished, portfolio-quality finish that looks like a real designer’s concept sheet used in professional fashion development"
+  },
+  {
+    "id": 15,
+    "title": "اعلان مع السعر",
+    "category": "بزنس ومنتجات",
+    "tags": [
+      "بزنس ومنتجات"
+    ],
+    "image": "./images/IMG_9622.png",
+    "prompt": "السعر : [ 199 ﷼]\n    High-end Arabic marketing poster, minimalist commercial layout, centered or slightly offset product as the main hero element (use the exact product from the attached image, no redesign), clean premium composition on a soft neutral background subtle gradient with soft natural shadows, strong studio lighting from above or side to create depth and realistic reflections, ultra-detailed textures showing real material quality (plastic, metal, fabric, glass depending on product), product placed naturally with slight imperfection to avoid staged look, professional commercial photography style\n    \n    Large bold price typography as the main focal point in the upper area, use the number written above as the price, bold clean font, strong contrast color, clear hierarchy\n    \n    Add small Arabic headline above price (short promotional phrase), minimal Arabic supporting text below (product description or offer details), clean grid alignment, balanced spacing, modern Arabic typography, no clutter\n    \n    Focus on hyper-realism, natural lighting, accurate shadows, real-world reflections, no CGI look, no AI artifacts, no distortion, no unnecessary props unless relevant to the product, ultra clean composition\n    \n    4K ultra-high resolution, sharp details, realistic color grading, premium commercial photography style, looks like it was shot by a high-end advertising agency"
+  },
+  {
+    "id": 16,
+    "title": "اعلان فاخر متعدد الزوايا",
+    "category": "بزنس ومنتجات",
+    "tags": [
+      "بزنس ومنتجات"
+    ],
+    "image": "./images/9F5DFFF2-C91D-455F-9FDC-418EB8A68205.png",
+    "prompt": "Create an ultra-high-end 8K studio editorial composition based on [ATTACHED_INPUT_IMAGE], carefully analyzing the subject’s geometry, material properties, and branding elements to ensure complete visual and physical consistency across seven seamlessly integrated panels; first identify the primary subject, logo or brand insignia, and core material, then apply appropriate material lighting logic (sharp rim lighting for tech, refraction and caustics for glass, soft diffused light for organic forms, and matte-to-satin controlled highlights for fashion); structure the composition as a single unified image with one dominant hero panel on top and a 2×3 grid of six supporting panels below (total of seven views), with no text or borders except where necessary for branding presentation in Frame 2; the main hero panel should present a centered master portrait on an infinite-curve background with lighting that emphasizes the subject’s primary material and form, while the six supporting panels include: F1 a macro extreme close-up revealing the subject’s “material DNA” such as micro-texture, grain, fibers, or circuitry, F2 a refined 3D brand emblem or logo centered on a minimalist studio backdrop, F3 a scale-context shot placing the subject in an appropriately sized environment (gallery space for large objects or pedestal display for small ones), F4 a high-angle or top-down composition emphasizing rhythm through repetition, modularity, or knolling, F5 a dynamic motion still capturing a weightless action moment enhanced by subtle environmental effects like vapor, sparks, liquid, or dust, and F6 a high-contrast rim-lit profile isolating the subject’s iconic silhouette and contours; maintain a cohesive ultra-premium studio editorial style throughout with absolute consistency in color, materials, and design language across all panels, and ensure the final render meets professional standards including 8K resolution, ray-traced reflections, global illumination, cinematic lighting, and advanced color grading."
+  },
+  {
+    "id": 17,
+    "title": "بوستر قصاصات",
+    "category": "بزنس ومنتجات",
+    "tags": [
+      "بزنس ومنتجات"
+    ],
+    "image": "./images/894C958C-1C25-43EA-BF3A-3B12FA874686.png",
+    "prompt": "Generate an Image You are a world class creative director, brand strategist, editorial art director, and visual identity designer specializing in high impact campaign systems for global brands.\n    \n    Your task is to create a bold, visually explosive, highly curated editorial moodboard collage composition that feels like a modern brand identity system.\n    \n    This should feel like a brand world captured in one frame, not a clean layout, slightly chaotic, layered, and expressive.\n    BRAND INPUTS \n    based on the attached image \n    VISUAL STYLE:\n    \n    Create a dense, layered moodboard-style composition combining:\n    \n    • real product photography or lifestyle shots\n    • packaging elements (bags, boxes, labels, tags)\n    • typography snippets and brand phrases\n    • illustrated graphics and doodles\n    • icons, symbols, and stickers\n    • abstract graphic shapes and patterns\n    • UI-like elements (menus, cards, labels)\n    • editorial cutouts and overlapping assets\n    \n    The composition should feel:\n    \n    • slightly messy but intentionally designed\n    • layered with depth and overlaps\n    • like a Pinterest board meets high-end campaign\n    • expressive, youthful, and brand-heavy\n    • visually rich and scroll-stopping\n    \n    ART DIRECTION:\n    \n    Include a mix of elements such as:\n    \n    • product packaging mockups (bags, boxes, labels, stickers)\n    • lifestyle shot (person interacting with product or brand)\n    • bold typography blocks with brand phrases\n    • illustrated objects interacting with real elements\n    • menu-style or UI-style panels\n    • abstract shapes, blobs, squiggles, starbursts\n    • brand-related icons or symbols\n    • badge / stamp graphics\n    • textile or merch items (t-shirt, cap, tote bag, etc.)\n    • playful graphic overlays\n    \n    COMPOSITION RULES:\n    \n    • asymmetrical layout (NOT grid-based)\n    • elements scattered but balanced\n    • overlapping layers with depth\n    • mix of large hero elements + small details\n    • combine clean areas with dense clusters\n    • include cutout-style compositions\n    • avoid too much empty space\n    \n    COLOR & DESIGN LANGUAGE:\n    \n    • strictly follow brand color palette\n    • strong use of PRIMARY COLOR across elements\n    • secondary color used for contrast and layering\n    • minimal additional colors (keep it brand-consistent)\n    • high contrast, bold visual identity\n    \n    TYPOGRAPHY:\n    \n    • modern editorial typography\n    • mix of serif / sans-serif if relevant\n    • bold headlines + small UI text\n    • include brand name and/or slogan naturally in layout\n    • typography should feel integrated, not separate\n    \n    VISUAL CHARACTERISTICS:\n    \n    • premium campaign look\n    • modern brand identity system\n    • editorial + commercial hybrid aesthetic\n    • highly shareable social media visual\n    • playful but intentional chaos\n    • cohesive even in randomness\n    \n    IMPORTANT:\n    \n    This should feel like:\n    \n    • a brand world explosion in one frame\n    • a creative direction board for a global campaign\n    • a visual identity snapshot of the brand\n    \n    NOT a clean layout\n    NOT a grid\n    NOT minimal\n    \n    It must feel alive, layered, and expressive."
+  },
+  {
+    "id": 18,
+    "title": "افكار محتوى لكل المنصات",
+    "category": "بزنس ومنتجات",
+    "tags": [
+      "بزنس ومنتجات"
+    ],
+    "image": "./images/D01E462C-F8F6-4B50-8922-09C9E4CEC7FE.png",
+    "prompt": "Create a high-end visual marketing presentation in a vertical format, designed as a premium, polished collage that showcases a product across multiple social media platforms (TikTok, Instagram, Snapchat, Twitter/X). The output should reflect the level of a world-class global marketing agency, with a strong focus on precision, luxury, and high production value.\n    \n    The design should feature a meticulously organized and perfectly balanced collage composed of refined visual blocks, emphasizing sophistication, clarity, and visual impact. Prioritize striking, high-quality imagery with minimal but intentional text, using elegant Arabic captions or short phrases only when necessary.\n    \n    Include:\n    •\tHighly produced content concepts with cinematic quality (studio shoots, controlled environments, premium lifestyle scenes, luxury settings, refined urban environments)\n    •\tElevated audience representation with a focus on aspirational lifestyle, premium fashion styling, and polished environments\n    •\tUltra-realistic, high-fidelity social media mockups (posts, reels, stories) presented in a sleek, structured, and editorial-style layout\n    •\tProduct-focused hero visuals, dramatic close-ups, and precision-crafted compositions that highlight detail, texture, and quality\n    \n    Focus on:\n    •\tHigh-end, editorial-style visuals instead of casual or organic content\n    •\tControlled lighting setups, dramatic shadows, and refined color grading\n    •\tFlawless composition with strong visual hierarchy and intentional spacing\n    •\tA cohesive, premium color palette aligned with luxury branding standards\n    \n    Style requirements:\n    •\tLuxury, modern, and agency-level execution\n    •\tPerfectly aligned grid or modular layout with precise spacing\n    •\tClean, premium backgrounds (soft gradients, refined neutrals, subtle textures)\n    •\tNo clutter, no randomness — every element is intentional and highly curated\n    •\tSubtle but sophisticated branding elements (logos, typography, micro-details)\n    \n    The final result should look like an over-the-top, high-end marketing campaign presentation created by a top-tier global agency, in ultra-high resolution (4K or higher), optimized for vertical composition, suitable for premium brand presentations and large-scale professional campaigns."
+  },
+  {
+    "id": 19,
+    "title": "اعلان في واجهة تطبيق",
+    "category": "بزنس ومنتجات",
+    "tags": [
+      "بزنس ومنتجات"
+    ],
+    "image": "./images/320BD657-D713-439C-8F6C-F51085C0F7E0.png",
+    "prompt": "السعر 9﷼)) \n    Create a high-end product UI presentation visual where the attached product is seamlessly integrated into a modern mobile app interface, designed as a premium e-commerce or ordering screen, using the exact product with no changes to its shape, texture, branding, or details, ensuring it remains fully recognizable and ultra-sharp. The entire interface language must automatically adapt to the language used on the product itself (Arabic, English, or any other language), including product name, description, buttons, and UI labels, with correct typography direction (RTL for Arabic, LTR for English).\n    \n    The composition should feature a large, centered smartphone UI card with soft rounded corners, floating against a clean blurred gradient background (neutral tones softly blending), creating depth-of-field. The UI card should feel like a real, polished mobile app screen.\n    \n    Place the product as a hero element overlapping the UI, slightly emerging outside the card to create a 3D depth illusion, as if it is coming out of the screen. Add subtle floating elements derived from the product (materials, fragments, textures, or small components) around it to enhance realism and motion.\n    \n    UI Details:\n    \n    * Minimal top navigation (back arrow and menu icons aligned based on language direction)\n    * Product name in bold modern typography (in arabic\n    * Short description line below\n    * A price label using the value defined at the beginning of the prompt\n    * A clear call-to-action button in arabic \n    * Clean spacing, perfect alignment, and strong visual hierarchy\n    \n    Design Style:\n    \n    * Premium modern mobile UI (iOS/Android level polish)\n    * Soft shadows and elevation layers\n    * Rounded corners and refined spacing\n    * Balanced, minimal yet luxurious layout\n    \n    Lighting & Rendering:\n    \n    * Hyper-realistic product rendering\n    * Soft studio lighting with clean highlights\n    * Subtle reflections and natural shadows\n    * Accurate materials and textures\n    * No artificial or plastic look\n    \n    Focus:\n    \n    * Product must remain the hero with maximum clarity\n    * UI should support the product visually\n    * All text must be sharp, readable, and correctly localized\n    \n    Output:\n    \n    * Ultra high resolution (4K–8K)\n    * No distortion or watermark\n    * No alteration to product identity\n    \n    The final result should look like a premium localized app product showcase, designed by a top-tier UI/UX and branding agency, seamlessly blending real product photography with a realistic, language-aware digital interface."
+  },
+  {
+    "id": 20,
+    "title": "تصميم ستيكرات",
+    "category": "بزنس ومنتجات",
+    "tags": [
+      "بزنس ومنتجات"
+    ],
+    "image": "./images/sticker_gpt.png",
+    "prompt": "Create a high-end editorial sticker-style collage poster based on the attached product, designed as a professionally art-directed print layout rather than a realistic scene or mockup. The final result should feel like a premium graphic design composition created inside professional design software such as Adobe InDesign or Photoshop, fully prepared for luxury print production using CMYK print aesthetics.\n    \n    Use the exact structural inspiration of the reference image:\n    - A centered square editorial composition\n    - Clean outer margins\n    - Minimal top header band\n    - Structured inner layout panel\n    - Carefully placed floating graphic elements with intentional spacing\n    \n    The composition should feel graphic, flat, and print-designed rather than physically photographed or realistic. Avoid realistic lighting, environmental shadows, or 3D mockup presentation. Focus instead on editorial composition, graphic layering, typography, shape language, and premium print aesthetics.\n    \n    Transform the product identity into a curated system of sticker-inspired graphic assets derived directly from the product:\n    - Ingredients\n    - Materials\n    - Product shape\n    - Cultural references\n    - Packaging details\n    - Branding elements\n    - Surface patterns\n    - Symbols and icons\n    \n    Sticker system:\n    - Vector-style printed sticker appearance\n    - Crisp cutout edges\n    - Minimal or no realistic shadows\n    - Slight rotations for dynamic editorial balance\n    - Mix of small, medium, and large graphic elements\n    - CMYK print-style color behavior\n    - Slight halftone textures, print grain, ink imperfections, or offset-print details\n    \n    Include:\n    - Product-inspired symbols\n    - Abstract geometric forms\n    - Mini illustrations\n    - Label tags\n    - Stamp graphics\n    - Barcode-style elements\n    - Technical identifiers\n    - Graphic codes and typography fragments\n    \n    Typography:\n    - All text in Arabic\n    - Typography should feel editorial and print-focused\n    - Modern Arabic type mixed with experimental layout styling\n    - Use short coded phrases, labels, and identifiers\n    - Integrate typography as part of the graphic system itself\n    - Avoid large text blocks\n    \n    Header section:\n    - Minimal centered title/logo inspired by the product\n    - Tiny icon or emblem\n    - Swiss/editorial print layout influence\n    \n    Background:\n    - Flat editorial background rather than realistic surfaces\n    - Soft neutral tones, muted CMYK-inspired colors\n    - Subtle paper grain or printed texture overlays\n    - No realistic depth or environmental rendering\n    \n    Composition:\n    - Balanced editorial grid system\n    - Spacious and minimal layout\n    - No clutter or chaotic overlap\n    - Clean hierarchy with strong negative space\n    - Intentional placement similar to high-end print editorials\n    \n    Style direction:\n    - Luxury editorial print design\n    - Contemporary graphic design aesthetic\n    - CMYK print-ready visual language\n    - Graphic design portfolio quality\n    - Modern poster-system composition\n    - Feels like a professionally art-directed collectible print piece\n    \n    Output:\n    - Ultra-high resolution (4K+)\n    - Sharp vector-like edges\n    - Print-ready composition\n    - CMYK-inspired color separation feel\n    - No realistic rendering or photography style\n    - No watermark or distortion\n    \n    The final result should feel like a premium editorial graphic poster and collectible print artifact, professionally designed for luxury publication, blending Arabic typography, sticker systems, symbolic graphics, and product identity into one refined print-focused composition."
+  },
+  {
+    "id": 21,
+    "title": "‏تصميم شكل بالمكونات",
+    "category": "بزنس ومنتجات",
+    "tags": [
+      "بزنس ومنتجات"
+    ],
+    "image": "./images/IMG_0102.jpeg",
+    "prompt": "Create a clean, high-end silhouette-based product composition using the attached product as the reference, where the product is represented as a precise outline / contour (thin, clean stroke) that perfectly follows its exact shape, proportions, and structure (adaptable to any product form such as bottle, can, box, etc.), with sharp, vector-like edges as if created in professional Photoshop.\n    \n    Inside the silhouette (or fully filling it), use the main ingredient or core element of the product as a dense, visually rich background (e.g., fruits, materials, liquids,textures), arranged naturally and consistently to create a full, seamless fill that clearly represents the product’s essence. The ingredient should be highly realistic, fresh, detailed, and evenly distributed.\n    \n    Overlay the product name or logo exactly as it appears on the original product inside the silhouette, centered and scaled appropriately, with no changes to typography, spacing, orientation, or design, ensuring it remains fully readable, sharp, and true to the original branding. The logo/text should feel integrated with the silhouette while still clearly visible over the ingredient background.\n    \n    Design direction:\n    \n    * Minimal, bold, and highly graphic\n    * Strong contrast between outline, ingredient, and text\n    * The silhouette acts as the main framing device\n    * Clean, centered composition\n    \n    Style:\n    \n    * Professional Photoshop-level masking and compositing\n    * Crisp edges, no rough cutouts\n    * High clarity and sharpness\n    * No visual noise\n    \n    Color:\n    \n    * Driven by the ingredient and original product branding\n    * Cohesive, controlled palette\n    * Background outside the silhouette should be simple (solid color or subtle gradient) to emphasize the shape\n    \n    Lighting:\n    \n    * Soft, even lighting across the ingredient\n    * Natural highlights and textures visible\n    * No harsh shadows\n    \n    Focus:\n    \n    * Perfect silhouette accuracy\n    * Ingredient realism and texture detail\n    * Fully readable, unchanged product logo/text\n    \n    Output:\n    \n    * Ultra high resolution (4K–8K)\n    * No watermark\n    * No distortion\n    * No redesign of branding\n    \n    The final result should look like a premium advertising visual, combining product shape, ingredient storytelling, and brand identity into a simple, striking, and professionally crafted composition."
+  },
+  {
+    "id": 22,
+    "title": "بوستر ازياء",
+    "category": "بزنس ومنتجات",
+    "tags": [
+      "بزنس ومنتجات"
+    ],
+    "image": "./images/9197C55F-2947-45F8-A359-D324E7F00A39.png",
+    "prompt": "Create a premium minimalist editorial fashion poster featuring the attached clothing piece as the main hero product, fully adapting the design, mood, colors, and typography to match the attached garment and its graphic/style.\n    \n    The composition should feel like a timeless high-end streetwear campaign poster with a clean cinematic atmosphere and strong visual hierarchy.\n    \n    Requirements:\n    \n    * Use the attached clothing item exactly as the core inspiration\n    * Adapt the entire visual direction to the garment’s graphic, colors, aesthetic, and mood\n    * Keep the clothing piece naturally arranged (laid flat or softly draped) with realistic folds and shadows\n    * Enhance the main garment image to look professionally photographed in a luxury studio campaign\n    \n    Focus heavily on:\n    \n    * Realistic fabric texture and premium material quality\n    * Visible stitching, collar structure, seams, hems, and surface details\n    * High-detail textile texture with realistic fibers and fabric grain\n    * Accurate print texture and finish (matte, glossy, reflective, puff print, screen print, etc. depending on the garment)\n    \n    Typography:\n    \n    * Large bold editorial typography inspired by the garment’s aesthetic\n    * Adaptive headline and layout that visually matches the clothing design\n    * Minimal but impactful text composition\n    \n    Lighting & Mood:\n    \n    * Soft cinematic studio lighting\n    * Gentle shadows and premium depth\n    * Slight grain for an editorial campaign feel\n    * Luxury fashion advertisement atmosphere\n    \n    Background:\n    \n    * Minimal textured background adapted to the clothing style\n    * Neutral or matching tones inspired by the garment\n    * Strong negative space and balanced composition\n    \n    Style:\n    \n    * Vintage editorial fashion campaign\n    * Luxury streetwear poster\n    * Modern minimalist clothing advertisement\n    * High-end graphic fashion branding aesthetic\n    *in arabic\n    Ultra-high resolution, sharp details, premium color grading, realistic lighting, strong focus on texture and craftsmanship, professionally art-directed fashion campaign poster."
+  },
+  {
+    "id": 23,
+    "title": "سكيتش تفاصيل للملابس",
+    "category": "بزنس ومنتجات",
+    "tags": [
+      "بزنس ومنتجات"
+    ],
+    "image": "./images/ChatGPT_Image_May_10_2026_11_58_52_AM.png",
+    "prompt": "Create a minimal hand-drawn fashion presentation post based on the attached clothing piece, designed to look like an authentic fashion designer’s sketch board rather than a polished commercial graphic. The final result should feel naturally drawn by hand with realistic pencil imperfections, loose sketch strokes, soft graphite shading, and subtle human inaccuracies, while still maintaining a clean, elegant, Instagram-ready composition.\n    \n    Use the attached garment as the main reference and translate all of its real visual details into a designer-style sketch. The clothing piece must remain the clear hero of the post, placed prominently in the center as one large hand-drawn sketch with soft shading and realistic fabric illustration.\n    \n    Include a few small zoomed-in detail sections extracted directly from the real garment image to preserve authentic texture, stitching, embroidery, seams, print quality, collar construction, sleeve details, and fabric grain. These detail crops should be integrated subtly into the layout with thin hand-drawn frames and delicate callout lines.\n    \n    On one side of the composition, include a minimal full-body fashion model sketch wearing the same clothing piece. The model should feel like a real designer’s quick concept drawing: slim fashion illustration proportions, loose hand-drawn outlines, soft pencil or graphite style, minimal facial details, elegant natural pose, slight movement, and light shading only around folds and shadows. The illustration should remain intentionally unfinished and artistic, not hyper-realistic. The clothing on the model should accurately reflect the real garment, preserving its fit, proportions, print, stitching, and fabric behavior.\n    \n    Keep the supporting sketch elements very limited and subtle:\n    \n    * A few light construction lines\n    * Thin callout arrows\n    * Very minimal handwritten Arabic notes\n    * Only short labels or 1–2 word annotations\n    * No large text blocks\n    * No excessive notes or crowded details\n    \n    Keep the overall design simple, spacious, and uncluttered, with plenty of negative space and a light neutral background such as off-white sketchbook paper, warm gray, or beige. The composition should feel like a genuine designer’s working board, not a polished advertisement or a fully rendered poster.\n    \n    Style direction:\n    \n    * Authentic hand-drawn fashion illustration aesthetic\n    * Designer sketchbook feel\n    * Soft graphite and pencil textures\n    * Minimal editorial layout\n    * Premium but understated\n    * Strong focus on the garment\n    * Very little text on the final image\n    \n    Focus heavily on:\n    \n    * The clothing piece as the hero element\n    * Real fabric texture from the original image\n    * Natural textile folds and stitching details\n    * A refined balance between realism, sketch quality, and simplicity\n    \n    The final result should look like a genuine luxury fashion designer’s concept sketch board with minimal text, where the garment is the main focus and all other details feel subtle, elegant, and intentionally restrained."
+  },
+  {
+    "id": 24,
+    "title": "تصوير من كل الاتجاهات",
+    "category": "بزنس ومنتجات",
+    "tags": [
+      "بزنس ومنتجات"
+    ],
+    "image": "./images/0D636A5F-A89F-4B9D-AA88-D75559BCA46F.png",
+    "prompt": "Create a clean, minimal multi-angle product presentation board using the provided product as the main subject. The layout should be structured like a professional product showcase sheet on a pure white or very light neutral background, with a simple and spacious composition.\n    \n    At the very top, include a very small English headline based on the product name, product type, or product industry. The sentence should be short, refined, and relevant to the item, such as a product title, collection name, or simple industry-style descriptor. Keep it subtle and minimal.\n    \n    Arrange the product in a multi-view layout showing it from several different angles and perspectives, while keeping the same clean visual structure throughout. The board should include:\n    \n    * One large main hero view of the product near the top center\n    * Several smaller supporting views below it\n    * Different angles such as front, side, top, back, close-up, bottom, or detail view depending on the type of product\n    * A balanced grid-like arrangement with clear spacing between each view\n    \n    Adapt the angle selection intelligently to any product:\n    \n    * If it is footwear, show lateral, medial, top, back, sole, and hero angle\n    * If it is fashion, show front, back, side, detail close-up, and styling view\n    * If it is beauty or skincare, show front, side, back, cap/opening, texture/detail, and hero angle\n    * If it is tech or lifestyle, show front, side, back, ports/details, top, and hero angle\n    * If it is food or beverage, show hero shot, side view, top view, packaging detail, ingredient/detail shot, and alternate angle\n    \n    Style requirements:\n    \n    * Very minimal white background\n    * Clean product-sheet aesthetic\n    * No clutter\n    * No decorative elements\n    * No heavy shadows\n    * Soft subtle grounding shadows only\n    * Professional product photography feel\n    * High-end commercial presentation\n    * Sharp, realistic, and highly detailed\n    \n    Visual direction:\n    \n    * The product must remain the focus\n    * All views should be consistent in lighting and color\n    * The composition should feel neat, premium, and catalog-like\n    * Maintain strong symmetry or visual balance\n    * No mockup feel, no busy environment, no distracting props\n    \n    The final result should look like a professional studio product overview board, with one main hero image and multiple secondary angle shots arranged cleanly on a minimal white background, topped with a small English product-related headline."
+  },
+  {
+    "id": 25,
+    "title": "تصميم نيو - فينتج",
+    "category": "بزنس ومنتجات",
+    "tags": [
+      "بزنس ومنتجات"
+    ],
+    "image": "./images/IMG_0984.png",
+    "prompt": "Create a premium Instagram post based on the attached product, designed in a Neo-Vintage Decorative Gouache Editorial Illustration style. The final artwork should look like a high-end illustrated editorial poster, not a photo, combining a luxurious decorative composition, hand-painted gouache-like textures, stylized botanical scenery, and a rich ornamental layout. The design must be fully adaptable to any product the user attaches, while preserving the same visual language, mood, and composition quality.\n    \n    Use the attached product as the main hero element, but reinterpret it within this illustrated poster style. The product should feel naturally integrated into the world of the artwork, either as the central subject or as a featured object inside the illustrated scene. The final result should feel like a collectible art print or a luxury lifestyle campaign post.\n    \n    Style direction:\n    - Neo-vintage decorative editorial illustration\n    - Hand-painted gouache / poster-paint texture\n    - Stylized, slightly naïve but elegant illustration style\n    - Strong ornamental framing\n    - Flat-to-semi-flat color treatment with visible painterly texture\n    - Highly curated, luxurious, whimsical, and polished\n    - Inspired by decorative magazine covers, resort posters, preppy club visuals, and botanical art prints\n    - Refined, artistic, and social-media-ready\n    \n    Visual language:\n    - Use a richly composed central scene surrounded by decorative borders or ornamental framing\n    - Include lush botanical details such as flowers, leaves, vines, tropical plants, or garden-like motifs\n    - The scene should feel vibrant, curated, and slightly theatrical\n    - Use symmetrical or near-symmetrical composition when possible\n    - Incorporate a framed-window effect, decorative border, or patterned surround\n    - The product should be integrated elegantly into the scene, not awkwardly pasted\n    - If relevant, build a themed environment around the product category (for example: garden, resort, court, patterned surface, scenic landscape, decorative tabletop, stylized environment)\n    \n    Color palette:\n    Use a signature palette inspired by the reference style:\n    - dusty pink\n    - rose pink\n    - pastel pink\n    - sage green\n    - mint green\n    - soft botanical green\n    - deep garden green\n    - powder blue or sky blue\n    - soft ivory or cream\n    - touches of coral, berry, or warm floral red if needed\n    Keep the palette harmonious, romantic, and richly stylized. The colors should feel bold but softened, elegant, and slightly nostalgic.\n    \n    Texture and finish:\n    - Visible gouache or matte poster-paint texture\n    - Slight grain, print-like finish, and painted surface feel\n    - Crisp but painterly edges\n    - Soft shadowing only when needed\n    - Decorative patterning in backgrounds or borders\n    - No photorealism\n    - No glossy 3D rendering\n    - No flat vector-only feel\n    - It should feel handcrafted, artistic, and premium\n    \n    Composition ideas:\n    - Central illustrated scene or product display\n    - Decorative floral border or patterned ornamental frame\n    - Strong negative space balance\n    - Layered foliage and botanical depth\n    - Small figures or narrative elements may be included if relevant to the product concept\n    - If the product category allows it, create a dreamy lifestyle world around the product\n    - The product should remain clear and recognizable even within the stylized art direction\n    \n    Product integration rule:\n    - Adapt the illustrated environment and supporting visual story to match the attached product\n    - If the attached item is food or drink, build a playful luxurious still-life or lifestyle scene around it\n    - If it is fashion, integrate it into a refined editorial fashion-world composition\n    - If it is beauty or lifestyle, present it like an elegant collectible object inside a decorative illustrated setting\n    - Preserve the product identity while translating it into the same artistic world\n    \n    Post format:\n    - Ready for Instagram posting\n    - 4:5 vertical ratio\n    - High resolution\n    - 4000 x 5000 px minimum\n    - Ultra-detailed\n    - Clean and polished\n    - Professional luxury campaign quality\n    - Suitable as a final finished social media post\n    \n    Quality requirements:\n    - High-end illustrated campaign look\n    - Extremely polished and cohesive\n    - Premium art direction\n    - Rich decorative detail\n    - Strong composition\n    - Sharp final export\n    - No pixelation\n    - Ready to post immediately\n    \n    The final result should look like a luxurious illustrated editorial post created in a Neo-Vintage Decorative Gouache Editorial Illustration style, with a romantic pastel palette, botanical ornamentation, and a beautifully integrated attached product, presented as a premium collectible visual for social media."
+  },
+  {
+    "id": 26,
+    "title": "تصميم بواجهة تفاعلية",
+    "category": "بزنس ومنتجات",
+    "tags": [
+      "بزنس ومنتجات"
+    ],
+    "image": "./images/02A327E8-03E9-4EA2-B53C-3B82E9060627.png",
+    "prompt": "Create a high-end product poster based on the attached product, using a modern creative UI menu-list visual concept. The design should be fully adaptable to any product category, with the text, color scheme, mood, menu labels, and overall atmosphere automatically adjusted to match the product’s use, niche, industry, identity, and target audience. Use the attached product as the main hero object, keeping it realistic, sharp, and visually dominant while preserving its original shape, logo, packaging, colors, material, texture, and all visible details without redesigning or altering it. The composition should feature a bold minimal editorial layout with the product placed large in the center or slightly to the right, supported by a clean digital menu-list overlay that looks like a real desktop or interface context menu, with a white rounded rectangle, soft shadow, crisp typography, and a cursor selecting one highlighted option. The headline should be placed in the upper area with strong modern typography, and the phrase must be based on the product’s context, benefit, mood, lifestyle, niche, or industry. Some words in the headline can be highlighted with an accent color derived from the product palette, and the headline should feel clever, fun, creative, and campaign-ready. The menu-list content must be based on the product’s use, niche, and industry, with short playful Arabic options that feel smart, relevant, and believable. The highlighted menu item should represent the most important action, feeling, result, or benefit related to the product. Any text added to the design must be in Arabic only, while any brand name or product name already printed on the product must remain exactly as written on the product. The visual direction should be minimal, modern, product-focused, fun, creative, premium, and polished, with soft shadows, realistic lighting, a color palette extracted from the product, a background built from the product’s main colors and mood, smooth gradients or clean geometric color blocks, strong contrast, and clear hierarchy. The menu UI should have a realistic interface style, rounded white panel, subtle drop shadow, cursor arrow, one selected row with a soft accent highlight, Arabic menu options customized to the product’s specialty, and clean readable typography. Keep all text minimal, intentional, and visually balanced with no clutter. The final result should be ultra-high resolution, sharp, clean, professional, and agency-level, looking edited and polished in professional design software, ready to use as a premium social media post or campaign visual where the product is creatively connected to a customized Arabic UI menu-list concept based on its use, niche, and industry."
+  },
+  {
+    "id": 27,
+    "title": "مودل مراهق - رجل  ( اضف اي قطعة ملابس)",
+    "category": "بزنس ومنتجات",
+    "tags": [
+      "بزنس ومنتجات"
+    ],
+    "image": "./images/F44AB760-28BC-4B82-9721-40862AF2FFC4.png",
+    "prompt": "Create a highly realistic fashion lifestyle image featuring a late-teen Gulf Arab male model wearing the provided upper clothing piece as the hero fashion item. The clothing can be any t-shirt, hoodie, sweatshirt, jersey, or other upper-wear piece, and it must be worn naturally by the model while preserving the exact original details of the attached garment with very high accuracy.\n    \n    The clothing piece must stay extremely faithful to the original image, including:\n    \n    * exact fabric type and texture\n    * exact print design, artwork, and placement\n    * exact stitching and seam details\n    * exact cut and silhouette\n    * exact collar, hood, sleeves, cuffs, and hem structure\n    * exact proportions and fit\n    * exact color tones and material finish\n    * exact folds, thickness, and overall construction\n    \n    Do not redesign, simplify, or reinterpret the clothing. The garment should look like the same real piece from the attached image, only worn naturally on the model in a realistic way.\n    \n    The scene should feel like a real candid fashion photo taken indoors at night, with a relaxed, cool, streetwear mood. Place the model sitting casually on a sofa or couch in a dim interior space, wearing the clothing naturally. The pose should feel effortless, youthful, and confident, with a slightly slouched relaxed posture and subtle attitude. Add sunglasses if they suit the styling. The overall mood should feel modern, stylish, and fashion-focused.\n    \n    The image should look like a real camera photo, not a render, illustration, or graphic design. Use a direct on-camera flash aesthetic with the background darker and the subject brightly lit. The flash should create a raw, stylish snapshot feel often seen in modern streetwear and editorial photography.\n    \n    Camera and photo settings:\n    \n    * Camera style: DSLR or mirrorless snapshot\n    * Lens: 35mm or 50mm\n    * Aperture: f/2.8\n    * Shutter speed: 1/60\n    * ISO: 800–1250\n    * Lighting: direct on-camera flash\n    * White balance: slightly cool-neutral indoor tone\n    * Focus: sharp on the model and clothing\n    * Depth of field: shallow to medium\n    * Framing: vertical portrait composition\n    * Angle: eye-level or slightly low angle\n    * Quality: highly detailed, realistic, and photographic\n    \n    Styling focus:\n    \n    * The clothing piece is the main hero\n    * The garment must be clearly visible and visually dominant\n    * Show realistic fabric texture, print quality, folds, drape, stitching, and garment construction\n    * Keep the overall appearance age-appropriate for a late teenager\n    * The model should support the fashion piece, not overpower it\n    \n    Color and filter treatment:\n    \n    * Add a stylish editorial flash filter\n    * Slight cool tone with soft muted shadows\n    * Subtle film-like grain\n    * Crisp contrast\n    * Slightly faded dark tones\n    * Natural skin tones\n    * Keep it polished but still candid and raw\n    \n    Mood and aesthetic:\n    \n    * Realistic indoor flash photography\n    * Gulf Arab streetwear mood\n    * Youthful and stylish\n    * Slightly moody environment\n    * Premium but effortless\n    * Social-media-worthy and editorial at the same time\n    \n    The final result should look like a real high-quality fashion photo of a late-teen Gulf Arab male model wearing the exact attached clothing piece, captured with authentic camera settings, realistic flash lighting, and a stylish fashion-editorial filter, while preserving the garment’s fabric, print, cut, texture, and every visible detail with maximum realism and accuracy."
+  },
+  {
+    "id": 28,
+    "title": "مودل مراهق - رجل  ( اضف اي قطعة ملابس)",
+    "category": "بزنس ومنتجات",
+    "tags": [
+      "بزنس ومنتجات"
+    ],
+    "image": "./images/2CB65D1E-FC87-4744-B049-E39BB67A6A96.png",
+    "prompt": "Create a highly realistic fashion lifestyle image featuring an adult Gulf Arab male model wearing the provided upper clothing piece as the hero fashion item. The clothing can be any t-shirt, hoodie, sweatshirt, jersey, or other upper-wear piece, and it must be worn naturally by the model while preserving the exact original details of the attached garment with very high accuracy.\n    \n    The clothing piece must stay extremely faithful to the original image, including:\n    \n    * exact fabric type and texture\n    * exact print design, artwork, and placement\n    * exact stitching and seam details\n    * exact cut and silhouette\n    * exact collar, hood, sleeves, cuffs, and hem structure\n    * exact proportions and fit\n    * exact color tones and material finish\n    * exact folds, thickness, and overall construction\n    \n    Do not redesign, simplify, or reinterpret the clothing. The garment should look like the same real piece from the attached image, only worn naturally on the model in a realistic way.\n    \n    The scene should feel like a real candid fashion photo taken indoors at night, with a relaxed, cool, streetwear mood. Place the model sitting casually on a sofa or couch in a dim interior space, wearing the clothing naturally. The pose should feel effortless, stylish, and confident, with a slightly slouched relaxed posture and subtle attitude. Add sunglasses if they suit the styling. The overall mood should feel modern, stylish, and fashion-focused.\n    \n    The image should look like a real camera photo, not a render, illustration, or graphic design. Use a direct on-camera flash aesthetic with the background darker and the subject brightly lit. The flash should create a raw, stylish snapshot feel often seen in modern streetwear and editorial photography.\n    \n    Camera and photo settings:\n    \n    * Camera style: DSLR or mirrorless snapshot\n    * Lens: 35mm or 50mm\n    * Aperture: f/2.8\n    * Shutter speed: 1/60\n    * ISO: 800–1250\n    * Lighting: direct on-camera flash\n    * White balance: slightly cool-neutral indoor tone\n    * Focus: sharp on the model and clothing\n    * Depth of field: shallow to medium\n    * Framing: vertical portrait composition\n    * Angle: eye-level or slightly low angle\n    * Quality: highly detailed, realistic, and photographic\n    \n    Styling focus:\n    \n    * The clothing piece is the main hero\n    * The garment must be clearly visible and visually dominant\n    * Show realistic fabric texture, print quality, folds, drape, stitching, and garment construction\n    * Keep the overall appearance age-appropriate for an adult model\n    * The model should support the fashion piece, not overpower it\n    \n    Color and filter treatment:\n    \n    * Add a stylish editorial flash filter\n    * Slight cool tone with soft muted shadows\n    * Subtle film-like grain\n    * Crisp contrast\n    * Slightly faded dark tones\n    * Natural skin tones\n    * Keep it polished but still candid and raw\n    \n    Mood and aesthetic:\n    \n    * Realistic indoor flash photography\n    * Gulf Arab streetwear mood\n    * Stylish and mature\n    * Slightly moody environment\n    * Premium but effortless\n    * Social-media-worthy and editorial at the same time\n    \n    The final result should look like a real high-quality fashion photo of an adult Gulf Arab male model wearing the exact attached clothing piece, captured with authentic camera settings, realistic flash lighting, and a stylish fashion-editorial filter, while preserving the garment’s fabric, print, cut, texture, and every visible detail with maximum realism and accuracy."
+  },
+  {
+    "id": 29,
+    "title": "مودل مراهق - رجل  ( اضف اي قطعة ملابس)",
+    "category": "بزنس ومنتجات",
+    "tags": [
+      "بزنس ومنتجات"
+    ],
+    "image": "./images/ChatGPT_Image_May_15_2026_at_02_47_35_PM.png",
+    "prompt": "Create a clean premium social media product showcase inspired by a minimalist Instagram-style post, featuring a large rounded central card in the middle with two partially visible side panels creating a modern carousel presentation, soft neutral background tones sampled from the product itself, subtle editorial UI details like lines, arrows, frames, and minimalist interface elements, a small profile section at the top, simple social media icons underneath the image, and elegant Arabic marketing captions only in the surrounding layout while keeping the product completely untouched in its original language, branding, typography, labels, packaging, and visual identity; if the reference image is low quality, blurry, compressed, noisy, poorly lit, distorted, or cropped, intelligently recreate and enhance the product while preserving its exact appearance and recognizability by improving lighting, reflections, sharpness, textures, edges, materials, and packaging realism so it looks like a professional commercial studio product photo; maintain accurate proportions, logo placement, and packaging structure without redesigning the product; use a modern minimalist luxury aesthetic with clean spacing, rounded corners, soft shadows, strong hierarchy, realistic depth, and polished commercial presentation quality; adapt supporting side visuals to match the product category such as ingredients and lifestyle scenes for food, fabric and styling details for fashion, textures and ingredients for skincare, or relevant branded visuals for other categories while maintaining the same refined composition; ultra high resolution, realistic lighting, premium advertising quality, visually balanced, elegant, social-media-ready, authentic, and professionally art directed."
+  },
+  {
+    "id": 30,
+    "title": "ترتيب الإنستقرام",
+    "category": "بزنس ومنتجات",
+    "tags": [
+      "بزنس ومنتجات"
+    ],
+    "image": "./images/quality_restoration_20260517165513464.jpeg",
+    "prompt": "Create a professional 3x3 Instagram grid showcase presentation based on the attached product, designed for business presentation and branding showcase, not as a literal screenshot of a real Instagram account. The final result should look like a polished social media identity presentation board made by a professional creative agency, showing how the brand’s Instagram presence would look in a refined, high-end, presentation-style format.\n    \n    The design should include:\n    \n    * A 3x3 grid of 9 connected Instagram posts\n    * An Instagram-inspired profile presentation, but shown as a clean showcase / mockup / branded presentation, not a real app screenshot\n    * A profile identity section with:\n        * profile image\n        * brand name\n        * short Arabic bio\n        * highlight icons\n    * A visually refined layout that presents the account as a designed business concept, with a premium showcase effect\n    \n    The grid must be based entirely on the attached product, using the product’s own color palette extracted directly from the product image. Build the whole layout, branding, and post designs around those tones.\n    \n    All content must be in Arabic only, with correct RTL layout and elegant Arabic typography.\n    \n    Main goal:\n    \n    The final result should feel like a presentation of a business Instagram identity, not a casual account screenshot. It should look polished, curated, and intentionally displayed as a branding showcase for clients, businesses, or portfolio presentation.\n    \n    Grid concept:\n    \n    The 9 posts should work together as one connected visual campaign, with continuity across all squares through repeated shapes, visual flow, and consistent branding.\n    \n    * Top row: brand introduction and hero product presentation\n    * Middle row: product details, close-ups, key benefits, and one strong branded Arabic statement\n    * Bottom row: lifestyle usage, promotion, offer, launch, or final brand message\n    \n    Suggested post types:\n    \n    * Hero product post\n    * Product close-up\n    * Feature / benefit post\n    * Texture or detail post\n    * Brand statement\n    * Lifestyle usage\n    * Offer / launch announcement\n    * Promotional message\n    * Final branded closing post\n    \n    Visual direction:\n    \n    * Premium, agency-level presentation\n    * Clean, modern, and highly cohesive\n    * Minimal yet visually rich\n    * Strong branding and elegant composition\n    * Connected 3x3 visual storytelling\n    * Suitable for Gulf-region commercial brands\n    * Designed as a portfolio-quality showcase\n    \n    Presentation style:\n    \n    * Instagram-inspired but not a real screenshot\n    * Can be shown as a mockup presentation, branding board, or social media showcase composition\n    * Should feel like a refined design presentation for a business\n    * Polished, finished, and professional\n    \n    Typography and graphics:\n    \n    * Elegant modern Arabic typography\n    * Short, refined Arabic marketing copy\n    * Subtle graphic elements such as lines, shapes, blocks, or flowing forms to connect the posts\n    * Clear hierarchy and premium spacing\n    \n    Quality:\n    \n    * High resolution\n    * Sharp and polished\n    * Realistic and professional\n    * Social-media-ready\n    * Looks like it was designed by a top creative agency\n    \n    The final result should look like a premium business Instagram grid showcase, presenting a fully developed Arabic brand identity through a connected 3x3 campaign layout, using the attached product as the foundation, with a polished presentation effect rather than a literal real-account screenshot."
+  },
+  {
+    "id": 31,
+    "title": "تصوير فلات للملابس",
+    "category": "بزنس ومنتجات",
+    "tags": [
+      "بزنس ومنتجات"
+    ],
+    "image": "./images/18941D59-7113-4E2B-A6CC-12B417E0F216.png",
+    "prompt": "Create a highly realistic top-down streetwear product photo featuring the attached clothing piece laid flat on a raw concrete floor. Keep the entire scene exactly the same in style and composition: the same overhead perspective, same gray industrial floor texture, same natural imperfections, same casual framing, and the same authentic streetwear mood.\n    \n    The clothing piece should remain the main hero of the image, placed flat on the floor with its original shape, cut, fabric texture, print, stitching, folds, proportions, and details preserved accurately. Do not redesign or change the garment. Keep the print sharp and realistic, naturally printed on the fabric.\n    \n    Maintain the same candid point-of-view composition, with the photographer’s shoes and lower legs visible at the bottom edge of the frame to give the image a real lifestyle snapshot feeling. The photo should look like it was taken naturally from above with a phone camera in a minimal urban/streetwear setting.\n    \n    Add: [write what should be added here]\n    The added element should blend naturally into the scene without changing the main layout, floor texture, lighting, or clothing details.\n    \n    Style requirements:\n    \n    * Ultra-realistic photography\n    * Top-down POV angle\n    * Raw gray concrete floor\n    * Minimal streetwear aesthetic\n    * Natural shadows and lighting\n    * Realistic fabric texture and print quality\n    * Casual but premium lifestyle mood\n    * No artificial mockup look\n    * High-resolution sharp details\n    \n    The final result should look like a real high-quality streetwear product photo taken from above, keeping the same floor, layout, perspective, and overall mood, with the attached clothing piece as the hero.\n    Create a highly realistic top-down streetwear product photo featuring the attached clothing piece laid flat on a raw concrete floor. Keep the entire scene exactly the same in style and composition: the same overhead perspective, same gray industrial floor texture, same natural imperfections, same casual framing, and the same authentic streetwear mood.\n    \n    The clothing piece should remain the main hero of the image, placed flat on the floor with its original shape, cut, fabric texture, print, stitching, folds, proportions, and details preserved accurately. Do not redesign or change the garment. Keep the print sharp and realistic, naturally printed on the fabric.\n    \n    Maintain the same candid point-of-view composition, with the photographer’s shoes and lower legs visible at the bottom edge of the frame to give the image a real lifestyle snapshot feeling. The photo should look like it was taken naturally from above with a phone camera in a minimal urban/streetwear setting.\n    \n    Add: [write what should be added here]\n    The added element should blend naturally into the scene without changing the main layout, floor texture, lighting, or clothing details.\n    \n    Style requirements:\n    \n    * Ultra-realistic photography\n    * Top-down POV angle\n    * Raw gray concrete floor\n    * Minimal streetwear aesthetic\n    * Natural shadows and lighting\n    * Realistic fabric texture and print quality\n    * Casual but premium lifestyle mood\n    * No artificial mockup look\n    * High-resolution sharp details\n    \n    The final result should look like a real high-quality streetwear product photo taken from above, keeping the same floor, layout, perspective, and overall mood, with the attached clothing piece as the hero.\n    Create a highly realistic top-down streetwear product photo featuring the attached clothing piece laid flat on a raw concrete floor. Keep the entire scene exactly the same in style and composition: the same overhead perspective, same gray industrial floor texture, same natural imperfections, same casual framing, and the same authentic streetwear mood.\n    \n    The clothing piece should remain the main hero of the image, placed flat on the floor with its original shape, cut, fabric texture, print, stitching, folds, proportions, and details preserved accurately. Do not redesign or change the garment. Keep the print sharp and realistic, naturally printed on the fabric.\n    \n    Maintain the same candid point-of-view composition, with the photographer’s shoes and lower legs visible at the bottom edge of the frame to give the image a real lifestyle snapshot feeling. The photo should look like it was taken naturally from above with a phone camera in a minimal urban/streetwear setting.\n    \n    Style requirements:\n    \n    * Ultra-realistic photography\n    * Top-down POV angle\n    * Raw gray concrete floor\n    * Minimal streetwear aesthetic\n    * Natural shadows and lighting\n    * Realistic fabric texture and print quality\n    * Casual but premium lifestyle mood\n    * No artificial mockup look\n    * High-resolution sharp details\n    \n    The final result should look like a real high-quality streetwear product photo taken from above, keeping the same floor, layout, perspective, and overall mood, with the attached clothing piece as the hero.\n    Create a highly realistic top-down streetwear product photo featuring the attached clothing piece laid flat on a raw concrete floor. Keep the entire scene exactly the same in style and composition: the same overhead perspective, same gray industrial floor texture, same natural imperfections, same casual framing, and the same authentic streetwear mood.\n    \n    The clothing piece should remain the main hero of the image, placed flat on the floor with its original shape, cut, fabric texture, print, stitching, folds, proportions, and details preserved accurately. Do not redesign or change the garment. Keep the print sharp and realistic, naturally printed on the fabric.\n    \n    Maintain the same candid point-of-view composition, with the photographer’s shoes and lower legs visible at the bottom edge of the frame to give the image a real lifestyle snapshot feeling. The photo should look like it was taken naturally from above with a phone camera in a minimal urban/streetwear setting.\n    d naturally into the scene without changing the main layout, floor texture, lighting, or clothing details.\n    \n    Style requirements:\n    \n    * Ultra-realistic photography\n    * Top-down POV angle\n    * Raw gray concrete floor\n    * Minimal streetwear aesthetic\n    * Natural shadows and lighting\n    * Realistic fabric texture and print quality\n    * Casual but premium lifestyle mood\n    * No artificial mockup look\n    * High-resolution sharp details\n    \n    The final result should look like a real high-quality streetwear product photo taken from above, keeping the same floor, layout, perspective, and overall mood, with the attached clothing piece as the hero.\n    Create a highly realistic top-down streetwear product photo featuring the attached clothing piece laid flat on a raw concrete floor. Keep the entire scene exactly the same in style and composition: the same overhead perspective, same gray industrial floor texture, same natural imperfections, same casual framing, and the same authentic streetwear mood.\n    \n    The clothing piece should remain the main hero of the image, placed flat on the floor with its original shape, cut, fabric texture, print, stitching, folds, proportions, and details preserved accurately. Do not redesign or change the garment. Keep the print sharp and realistic, naturally printed on the fabric.\n    \n    Maintain the same candid point-of-view composition, with the photographer’s shoes and lower legs visible at the bottom edge of the frame to give the image a real lifestyle snapshot feeling. The photo should look like it was taken naturally from above with a phone camera in a minimal urban/streetwear setting.\n    \n    Add: [write what should be added here]\n    The added element should blend naturally into the scene without changing the main layout, floor texture, lighting, or clothing details.\n    \n    Style requirements:\n    \n    * Ultra-realistic photography\n    * Top-down POV angle\n    * Raw gray concrete floor\n    * Minimal streetwear aesthetic\n    * Natural shadows and lighting\n    * Realistic fabric texture and print quality\n    * Casual but premium lifestyle mood\n    * No artificial mockup look\n    * High-resolution sharp details\n    \n    The final result should look like a real high-quality streetwear product photo taken from above, keeping the same floor, layout, perspective, and overall mood, with the attached clothing piece as the hero.\n    Create a highly realistic top-down streetwear product photo featuring the attached clothing piece laid flat on a raw concrete floor. Keep the entire scene exactly the same in style and composition: the same overhead perspective, same gray industrial floor texture, same natural imperfections, same casual framing, and the same authentic streetwear mood.\n    \n    The clothing piece should remain the main hero of the image, placed flat on the floor with its original shape, cut, fabric texture, print, stitching, folds, proportions, and details preserved accurately. Do not redesign or change the garment. Keep the print sharp and realistic, naturally printed on the fabric.\n    \n    Maintain the same candid point-of-view composition, with the photographer’s shoes and lower legs visible at the bottom edge of the frame to give the image a real lifestyle snapshot feeling. The photo should look like it was taken naturally from above with a phone camera in a minimal urban/streetwear setting.\n    \n    Add: [write what should be added here]\n    The added element should blend naturally into the scene without changing the main layout, floor texture, lighting, or clothing details.\n    \n    Style requirements:\n    \n    * Ultra-realistic photography\n    * Top-down POV angle\n    * Raw gray concrete floor\n    * Minimal streetwear aesthetic\n    * Natural shadows and lighting\n    * Realistic fabric texture and print quality\n    * Casual but premium lifestyle mood\n    * No artificial mockup look\n    * High-resolution sharp details\n    \n    The final result should look like a real high-quality streetwear product photo taken from above, keeping the same floor, layout, perspective, and overall mood, with the attached clothing piece as the hero."
+  },
+  {
+    "id": 32,
+    "title": "اعلان جرافيكي",
+    "category": "بزنس ومنتجات",
+    "tags": [
+      "بزنس ومنتجات"
+    ],
+    "image": "./images/F382EF29-2357-4FA1-9836-8A5B379FF895.png",
+    "prompt": "Flat digital social media ad, portrait format (9:16 or 4:5), pure 2D graphic design — as if built in Adobe Photoshop or Canva, ready to post. No mockup, no 3D render, no photographic background scene.\n    \n    Layout top to bottom:\n    \n    **Top section:** clean off-white or solid light background. Large bold Arabic headline occupying the top third — 2 to 3 lines, RTL, mixed weight typography. First line lighter weight, second and third lines heavy black bold, increasing in size and visual impact downward. Text is punchy, product-relevant, colloquial Arabic tone — direct and confident. Below the headline, a single rounded pill-shaped CTA button, vivid solid color (electric blue, red, or brand color), short Arabic action text centered inside it — \"اطلب الآن\" or equivalent.\n    \n    **Bottom section:** one or two human hands enter from the bottom edges of the frame holding the hero product — hand count determined strictly by the product's real-world size and natural usage. A single small product (phone, cup, lipstick, sandwich) held in one hand. A larger or two-handed product (pizza box, burger, large bag, tray) held with both hands entering from left and right. Hands are realistic, photographic, cleanly cut out, seamlessly composited against the background. Product sits centered, sharply lit, isolated. Behind the product: a bold flat graphic starburst or spiked badge shape in a saturated accent color — perfectly centered, slightly oversized, acting as a graphic backdrop pop.\n    \n    Product: taken directly from the attached reference image — exact item, exact appearance, no substitution.\n    \n    Typography: Arabic only. Bold geometric or display Arabic font. No decorative calligraphy. High contrast between text and background. All text within safe zone.\n    \n    Color palette: off-white or cream background, one dominant accent color pulled from the product or brand, black for headline weight. Maximum 3 colors total. pastel\n    \n    Finish: crisp, high-resolution, zero grain, zero noise. Social-media-ready. 300 DPI equivalent. Professional commercial ad quality."
+  },
+  {
+    "id": 33,
+    "title": "تصميم ضبابي ناعم",
+    "category": "بزنس ومنتجات",
+    "tags": [
+      "بزنس ومنتجات"
+    ],
+    "image": "./images/CF9F2AED-9959-40A1-A9B2-68BC5FF24471.png",
+    "prompt": "Create a soft, minimal, high-end product poster based on the provided product, fully adaptable to any product category while keeping the same clean visual concept. The design should feature one large hero product placed prominently on the right or lower-right side of the composition, with a very soft, dreamy, glossy-blurred visual effect applied to the product image — a diffused glassy glow, smooth soft-focus finish, and airy translucent look that makes the product feel fresh, light, and modern. The overall aesthetic should be minimal, elegant, and calm, with a soft pastel mood and a clean editorial layout. Include the product name clearly on the left side in a simple, refined, modern font, using a stacked or nicely spaced text layout, and write the product name exactly as it appears on the product itself without changing its language — if the product name is in English, keep it in English; if it is in Arabic, keep it in Arabic. Any additional supporting text besides the product name must be in Arabic only. Use a soft background color derived from the product itself, with subtle tonal harmony and a clean spacious composition. The product should remain recognizable, but the image treatment should feel smooth, glossy, slightly hazy, and visually soft, similar to a dreamy blur or frosted-glass-inspired commercial aesthetic. Add a few subtle decorative elements if needed, such as tiny sparkles or soft highlights, but keep the design minimal and polished. The final result should look like a premium modern product advertisement with a soft glossy-blur effect, the original product name preserved exactly as written on the product, and a clean visually pleasing layout suitable for any product."
+  },
+  {
+    "id": 34,
+    "title": "المنتج يتصل بك",
+    "category": "بزنس ومنتجات",
+    "tags": [
+      "بزنس ومنتجات"
+    ],
+    "image": "./images/F512E3B8-245B-40B4-B89B-52DB51CB2C64.png",
+    "prompt": "Create a premium vertical product advertisement poster based on the attached product, using the exact visual language of an Apple iPhone incoming call screen. Do not invent a custom UI. The interface must clearly look like a real iPhone incoming call UI, accurately styled with Apple’s clean iOS design aesthetic, but localized in Arabic.\n    \n    The design should be fully adaptable to any product category while keeping the same core concept: the product appears as if it is calling the viewer.\n    \n    Requirements:\n    \n    * Use the attached product as the hero object\n    * Preserve the product exactly as it appears:\n        * same shape\n        * same packaging\n        * same logo\n        * same label\n        * same colors\n        * same material\n        * same texture\n        * same visible details\n    * Do not redesign or alter the product\n    \n    Main concept:\n    \n    Create a high-end vertical poster where the product is presented within a scene styled like a real iPhone incoming call screen. The product should feel like the “caller,” with the UI built around it.\n    \n    UI direction:\n    \n    * The UI must look exactly like Apple iPhone incoming call interface\n    * Do not create a random or fictional call UI\n    * Use a clean iOS-style layout\n    * Use Arabic UI text\n    * The interface should feel polished, minimal, elegant, and instantly recognizable as iPhone-style\n    \n    Layout:\n    \n    * Vertical composition, suitable for Instagram Story or mobile ad format\n    * Background color based on the product’s own color palette\n    * A large Arabic main phrase at the top\n    * One short Arabic supporting phrase below it\n    * The product floating prominently in the center with a slight elegant tilt\n    * At the bottom, include the real iPhone incoming call answer interface styling, adapted into Arabic\n    * The bottom call-action area should visually resemble Apple’s real incoming call UI, not a made-up button\n    \n    Main phrase rule:\n    \n    * The main phrase must be written in modern Gulf Arabic\n    * It must follow this idea: [something related to the context of the product] is calling you\n    * The phrase should sound natural, catchy, and contemporary in Gulf Arabic\n    * Examples of direction:\n        * if the product is an energy drink: الطاقة تتصل عليك\n        * if the product is coffee: الروقان يتصل عليك\n        * if the product is perfume: الفخامة تتصل عليك\n        * if the product is skincare: النضارة تتصل عليك\n        * if the product is fashion: الستايل يتصل عليك\n    * The exact phrase should be automatically adapted depending on the product’s category, mood, and benefit\n    \n    Text rules:\n    \n    * All added UI text must be in Arabic\n    * The main phrase must be in modern Gulf Arabic\n    * The supporting phrase should also feel short, premium, and context-based\n    * Keep all text concise, elegant, and visually balanced\n    * If the product name appears on the product in English or Arabic, keep it exactly as is\n    \n    Style:\n    \n    * High-resolution\n    * Very sharp\n    * No pixelation\n    * Real graphic designer quality\n    * Clean composition\n    * Premium lighting\n    * Soft shadows\n    * Realistic highlights and reflections\n    * Modern and polished\n    * Looks like a professional ad made by a high-end designer\n    \n    Final result:\n    \n    The final image should look like a luxury vertical product advertisement where the product is “calling” the viewer through a realistic Arabic iPhone incoming call UI, with the main headline written in modern Gulf Arabic using the concept [product-related mood or benefit] is calling you, and the overall result should feel polished, premium, and professionally art directed."
+  },
+  {
+    "id": 35,
+    "title": "بنر متجر ملابس",
+    "category": "بزنس ومنتجات",
+    "tags": [
+      "بزنس ومنتجات"
+    ],
+    "image": "./images/ChatGPT_Image_May_28_2026_at_01_19_57_AM.png",
+    "prompt": "Create an ultra high-end premium e-commerce fashion banner for a modern Arabic clothing brand, using the attached clothing image as the primary visual reference and hero product of the composition. The final banner must look like a real professionally art-directed fashion campaign created for a luxury online clothing store.\n    \n    The design should feel commercially polished, realistic, premium, and visually comparable to banners created by top fashion brands and creative agencies.\n    \n    IMPORTANT — Product Accuracy:\n    The clothing item from the attached image must remain visually accurate and preserved exactly as in the original reference image, including:\n    \n    * same fit\n    * same proportions\n    * same silhouette\n    * same fabric texture\n    * same folds and material behavior\n    * same colors\n    * same print placement\n    * same typography / graphics\n    * same stitching and visible design details\n    \n    Do not redesign or alter the clothing itself.\n    \n    Branding:\n    \n    * Include the provided logo elegantly and professionally within the banner composition\n    * The logo placement should feel natural and luxury-oriented\n    * Arabic branding should feel modern, premium, and fashion-forward\n    \n    Payment Methods Integration:\n    Professionally integrate modern payment method icons into the composition:\n    \n    * Apple Pay\n    * Mada\n    * Tabby\n    * Tamara\n    \n    The payment icons should:\n    \n    * appear clean and realistic\n    * feel naturally embedded into the design\n    * be positioned subtly in a secondary area such as the lower corner or footer area\n    * not overpower the clothing product\n    * match premium Saudi / GCC e-commerce aesthetics\n    \n    Visual Style:\n    \n    * Luxury fashion campaign aesthetic\n    * Premium streetwear editorial mood\n    * Minimal and modern composition\n    * Strong visual hierarchy\n    * Clean luxury branding\n    * Contemporary fashion advertisement feel\n    * High-end online fashion store style\n    * Looks like a campaign shot by a professional creative agency\n    \n    Photography & Realism:\n    The final result must look like:\n    \n    * real commercial photography\n    * captured using a professional full-frame camera\n    * realistic lighting and shadows\n    * authentic fabric depth and texture\n    * realistic skin tones if a model is used\n    * natural reflections and contrast\n    * premium Photoshop retouching\n    * highly detailed and sharp\n    * not AI-generated looking\n    * not illustrative or cartoonish\n    \n    Composition:\n    \n    * Wide horizontal banner layout\n    * Suitable for homepage hero banner usage\n    * Aspect ratio around 3:1 or modern e-commerce hero proportions\n    * Clean balanced spacing\n    * Clothing item must remain the main focus\n    * Optional premium fashion model styling allowed\n    * Composition should feel cinematic and editorial\n    \n    Arabic Typography:\n    Add elegant modern Arabic campaign text such as:\n    \n    * “تشكيلة جديدة”\n    * “اكتشف الأناقة”\n    * “إطلاق المجموعة الجديدة”\n    \n    Typography should:\n    \n    * feel bold and luxurious\n    * resemble modern fashion campaigns\n    * use clean contemporary Arabic styling\n    * avoid clutter and excessive text\n    \n    Background & Environment:\n    \n    * Minimal luxury background\n    * Soft neutral tones, white, beige, gray, or brand-inspired palette\n    * Subtle depth and realistic shadows\n    * Premium studio or editorial atmosphere\n    * Refined commercial finish\n    \n    Quality Requirements:\n    \n    * Ultra realistic\n    * Ultra sharp\n    * High resolution\n    * Commercial advertising quality\n    * Premium online store ready\n    * Clean and polished\n    * Luxury fashion campaign finish\n    \n    The final banner should look like a real premium Arabic fashion brand homepage banner designed by a professional fashion marketing team, using the attached clothing item as the hero product, with elegant Arabic branding, integrated payment methods, realistic photography quality, luxury editorial styling, and a refined high-end commercial finish"
+  },
+  {
+    "id": 36,
+    "title": "بنر لكل المتاجر",
+    "category": "بزنس ومنتجات",
+    "tags": [
+      "بزنس ومنتجات"
+    ],
+    "image": "./images/57E8D2AF-7AC3-483C-B291-679447AA39A8.png",
+    "prompt": "Create an ultra high-resolution online store hero banner based on the attached product and provided logo, designed as a premium commercial campaign visual suitable for any e-commerce website. The banner must be fully adaptable to any product category, including fashion, beauty, food, beverage, tech, accessories, home products, digital products, or lifestyle goods, while keeping the same professional store-banner purpose. Use the attached product as the main hero object and preserve all its original details exactly, including shape, color, packaging, logo, label, texture, material, print, proportions, and visible design details. Do not redesign, distort, simplify, or alter the product. Include the provided logo clearly and elegantly within the banner composition, making it feel naturally integrated into the brand campaign. The final image should look like a real professional photograph taken with a high-end camera and polished in professional editing software, not like a flat mockup or AI-generated design. Use a wide horizontal online store banner aspect ratio such as 3:1, 16:5, or a similar e-commerce homepage banner format. The composition should be clean, bold, and visually striking, with the product placed as the main focal point and the logo positioned with strong hierarchy. Adapt the scene, styling, colors, typography, and atmosphere to match the product’s category and brand identity. If the product is apparel, it can be worn by a model or styled in a premium fashion campaign setting. If it is beauty or skincare, use a refined studio or lifestyle setup with elegant lighting. If it is food or beverage, create an appetizing commercial product scene. If it is tech or lifestyle, use a sleek modern environment. For any other product, choose the most natural and aspirational real-world context for that product. The banner should include clean campaign-style text only if needed, such as a short headline, collection phrase, launch message, or product statement, keeping the wording minimal and premium. All added text in the design must be in Arabic only, while any brand name or product name already printed on the product itself should remain exactly as it appears. Use a color palette derived from the product and logo, with a clean background that supports the product without clutter. Add realistic lighting, soft shadows, professional depth, sharp reflections, accurate material textures, and polished color grading. The overall style should feel modern, high-end, commercial, and ready to use immediately on an online store homepage. Quality must be ultra sharp, high resolution, no pixelation, no watermark, no distortion, no messy layout, and no artificial AI feel. The final result should look like a professional online store hero banner made by a premium creative agency, featuring the attached product and logo in a polished, realistic, e-commerce-ready campaign visual, with all design text presented in Arabic."
+  },
+  {
+    "id": 37,
+    "title": "محادثة وملصقات",
+    "category": "بزنس ومنتجات",
+    "tags": [
+      "بزنس ومنتجات"
+    ],
+    "image": "./images/IMG_1070.png",
+    "prompt": "Create a high-quality social media post based on the attached product, using a **chat message + sticker keyboard concept**. The final design should look like a clean, modern Arabic messaging interface floating over a realistic lifestyle background, where the product identity is transformed into a set of cute, branded stickers inside the chat UI. The design must be fully adaptable to any product the user attaches, whether it is food, drink, fashion, beauty, tech, accessories, or any other category.\n    \n    Use the attached product as the main visual reference and build the entire sticker system around it. The stickers should be inspired by the product’s shape, ingredients, packaging, colors, benefits, niche, and industry. The product itself can appear as one of the main stickers, while additional stickers should include related visuals such as product close-ups, ingredients, icons, mini illustrations, lifestyle elements, or playful symbols connected to the product.\n    \n    The composition should feature a large floating chat interface card in the center, styled like a premium mobile messaging UI. The interface should include an Arabic chat message at the top, a typing or reply area, and a sticker/emoji keyboard section filled with product-inspired stickers. The UI should feel soft, clean, friendly, and modern, with rounded corners, subtle shadows, light blur, and polished spacing.\n    \n    All added typography must be in Arabic only. The Arabic text should be short, casual, fun, and context-aware based on the product. The chat message should feel like a natural conversation related to the product’s mood or use, and the typed reply should feel playful and simple. Keep the Arabic typography clean, readable, and modern, with a soft social-media-friendly tone.\n    \n    The background should be realistic and lifestyle-based, matching the product’s category and atmosphere. If the product is food or drink, use a café, table, hand-held product moment, counter, or warm lifestyle scene. If it is fashion, use a styling or streetwear background. If it is beauty, use a clean vanity, bag, or lifestyle setup. If it is tech or accessories, use a minimal desk or modern environment. Keep the background slightly blurred or softly focused so the chat interface remains the main focus.\n    \n    Visual style:\n    \n    * Realistic lifestyle background\n    * Floating Arabic chat UI overlay\n    * Product-inspired sticker keyboard\n    * Soft modern mobile interface\n    * Rounded cards and clean spacing\n    * Playful but premium aesthetic\n    * Color palette based on the attached product\n    * Subtle shadows, soft blur, and polished depth\n    * High-end social media design quality\n    * No clutter, no pixelation, no random text\n    \n    Sticker style:\n    \n    * Stickers should be cute, clean, and product-relevant\n    * Use small cutout-style product visuals, mini illustrations, icons, or ingredient elements\n    * Each sticker should feel like part of one branded sticker pack\n    * Keep the sticker layout balanced and visually fun\n    * Make the stickers look ready to be used in a real chat\n    \n    Quality requirements:\n    \n    * Ultra high resolution\n    * Sharp, polished, and clean\n    * Professional graphic designer quality\n    * Realistic lighting and depth\n    * Ready to use as an Instagram post or campaign visual\n    * Fully adaptable to any attached product\n    \n    The final result should look like a premium Arabic social media post showing a realistic lifestyle scene with a floating chat interface, where the attached product is turned into a fun branded sticker keyboard, creating a playful and polished marketing visual ready to post."
+  },
+  {
+    "id": 38,
+    "title": "أمر UGC",
+    "category": "بزنس ومنتجات",
+    "tags": [
+      "بزنس ومنتجات"
+    ],
+    "image": "./images/B6BA6600-CA93-47BA-B8AD-650EBDE0A43C.png",
+    "prompt": "Create a realistic UGC-style product photo in Instagram Story size (9:16 vertical) based on the attached product, designed to look like it was taken by a real person in everyday life. The image should be fully adaptable to any product the user attaches, while preserving the product’s real details exactly, including its shape, packaging, label, logo, colors, texture, proportions, and visible design elements. Show the product being naturally held by a realistic human hand, with believable finger placement and a casual, authentic grip, as if someone is quickly showing the product to the camera. The hand should look natural, clean, and realistic, not overly posed or like a studio commercial shot. The overall scene should feel soft, simple, and organic, similar to casual user-generated beauty, skincare, lifestyle, or product content. Use a natural home-like background or soft fabric setting that matches the product’s category, with gentle folds, soft daylight, and a relaxed atmosphere. The composition should feel like a real phone photo or casual camera shot taken by a real person, with natural lighting, slight imperfections, soft shadows, realistic depth, and no artificial AI feel. Keep the focus clearly on the product, with the hand and background supporting it in a believable way. The final image should feel authentic, minimal, clean, and visually pleasing, like premium UGC content posted by a real customer, while still being high quality, sharp, polished, and optimized for Instagram Stories / Snapchat Stories in 9:16 vertical format."
+  },
+  {
+    "id": 39,
+    "title": "تصميم هل تقبل 💍",
+    "category": "بزنس ومنتجات",
+    "tags": [
+      "بزنس ومنتجات"
+    ],
+    "image": "./images/IMG_1155.png",
+    "prompt": "Create a high-quality social media story based on the attached product, using a playful proposal / acceptance concept where the product appears inside or emerging from an open proposal-style box as the main hero element, but make the whole design feel flat, graphic, and cutout-based, not like a realistic 3D mockup ring box. The box should look like a simple flat cutout element with a clean shape and soft shadowing at most, as if it is part of a paper collage or designer-made flat composition. The full post should automatically adapt to the attached product in its vibe, feeling, use, category, and emotional appeal, as if the product itself is proposing to the customer and asking them to accept something related to its benefit, craving, mood, experience, style, glow, comfort, taste, or lifestyle. The background should be minimal, paper-like, and slightly textured, with a soft off-white or light neutral paperish surface similar to editorial paper stock, keeping the design clean and spacious. The overall composition should stay centered, simple, and premium, with strong negative space and a neat flat layout. Add a small Arabic phrase at the top based on the idea of “هل تقبل…” or “تقبلين…”, and a small simple Arabic phrase at the bottom that completes the proposal in a product-relevant way. All added typography must be Arabic only, fully readable, typo-free, and written in a very simple Arabic sans-serif style, with a clean modern look, small size, and no oversized headline treatment. The text should not dominate the image; it should stay subtle, elegant, and balanced, just like the reference. The wording should feel clever, emotionally smart, and fully adapted to the product. The color palette, box color, and overall mood should also adapt to the product itself while keeping the design flat, polished, and cohesive. The final result should look like a designer-made flat paper collage social media story, with a cutout proposal box, a paper-texture background, small Arabic sans typography, and a playful proposal concept where the product is asking the customer to accept what it offers. The format must be story size, 9:16 vertical, optimized for Instagram Story and Snapchat Story."
+  },
+  {
+    "id": 40,
+    "title": "مقارنة المشكلة والحل",
+    "category": "بزنس ومنتجات",
+    "tags": [
+      "بزنس ومنتجات"
+    ],
+    "image": "./images/IMG_1225.png",
+    "prompt": "Create a high-quality social media post based on the attached product, using an extremely minimal split “problem / solution” concept in the exact clean editorial style of the reference.\n    \n    The layout should be very simple and minimal, with a light soft-gray or off-white background, a thin vertical divider line in the center, and two clearly separated sides.\n    \n    The left side should represent the customer’s problems, and the right side should represent the solution.\n    \n    At the top of each side, place a short Arabic heading in a bold, modern, minimalist sans-serif style, with a clean typographic hierarchy similar to the reference, keeping the styling sharp, editorial, and understated.\n    \n    On the left side, add several small rounded speech-bubble text boxes in a very light gray tone, each containing a short Arabic pain point that is fully based on the attached product, its speciality, niche, use, industry, and target customer needs.\n    \n    These pain points must be written in Arabic only, with clear, typo-free, fully readable text. Keep the bubbles simple, soft, evenly spaced, and floating vertically with plenty of empty space around them.\n    \n    On the right side, present the attached product as the hero element, isolated cleanly and displayed in a simple, polished way with no clutter, as if it is the direct answer to those pain points.\n    \n    The product should remain realistic and preserve its real packaging, shape, label, logo, colors, and details exactly as in the attached image.\n    \n    The overall aesthetic should be minimal, editorial, clean, spacious, modern, and premium, with strong negative space, no extra decorative elements, no busy background, and no unnecessary graphic clutter.\n    \n    The typography must be Arabic only, modern, sans-serif, fully readable, and professionally typeset, with 0% spelling mistakes.\n    \n    The color palette should be based on the attached product itself, adapting from its branding, packaging colors, and overall visual identity, while still staying restrained and minimal in the style of the reference.\n    \n    Keep the palette elegant and clean, with soft neutrals and subtle contrast, and if an accent color is used, it should be derived from the product rather than generic.\n    \n    The final result should look like a very minimal designer-made campaign post, elegant and simple like a premium editorial ad, where the left side quietly shows the customer’s problems related to the attached product, and the right side presents that same attached product as the clean solution."
+  },
+  {
+    "id": 41,
+    "title": "بورتريه سينمائي أنيق",
+    "category": "صور شخصية",
+    "tags": [
+      "صور شخصية"
+    ],
+    "image": "./images/83B90D6B-85A0-471A-BDAF-997698EA316B.png",
+    "prompt": "turn this image into A cinematic portrait taken indoors at night in a luxury high-rise suite with a large glass window wall showing a softly blurred cityscape of lights behind vertical blinds. The setting is elegant and moody with a formal black-tie atmosphere. The image is shot with a Canon EOS 5D Mark IV paired with an 85mm f/1.2L II USM lens, using a focal length of 85mm, aperture set to f/1.4, ISO 400, shutter speed 1/100 sec. The lighting setup includes a soft key light (diffused LED or softbox) positioned at about 45 degrees camera left, providing smooth highlights on the subject’s face and subtle shadows for depth. A fill light or bounced reflector is placed low on the right to slightly lift the shadows. The background lighting consists of natural city light sources from skyscrapers, adding bokeh and depth through the window. Camera is placed at eye level, medium close-up framing, from a slightly off-center angle, with the subject around 1.5 meters from the camera. The color temperature is tungsten-balanced (around 3200K) to maintain warm tones indoors while preserving the coolness of the night city lights. The image has a filmic grade with soft contrast and rich, clean color, likely finished with post-processing LUTs inspired by Kodak Vision3 film stock to maintain cinematic tones."
+  },
+  {
+    "id": 42,
+    "title": "بورتريه مع القمر",
+    "category": "صور شخصية",
+    "tags": [
+      "صور شخصية"
+    ],
+    "image": "./images/F857871A-5372-4402-BB03-2279B3675F2D.png",
+    "prompt": "Turn this into a dramatic low-light portrait. The subject is centered and framed straight-on, holding a glowing orb that resembles the moon. The orb is the only light source, casting a warm golden glow on the face and hands while the background fades into pure black. Camera settings: Aperture: f/2.8 for shallow depth of field. ISO: 400–800 for clean low-light capture. Shutter speed: 1/60s to balance glow and shadow. Composition: tight portrait crop, focus on face + orb. Editing: Deepen the blacks for a void-like background. Enhance the golden glow for a celestial effect, Increase contrast for chiaroscuro mood ,Keep skin tones natural while lit by warm light. Mood: Mystical, surreal, and intimate — a cosmic, dreamlike portrait."
+  },
+  {
+    "id": 43,
+    "title": "أفتار كرتوني",
+    "category": "صور شخصية",
+    "tags": [
+      "صور شخصية"
+    ],
+    "image": "./images/ChatGPT_Image_May_24_2026_at_03_23_07_AM.png",
+    "prompt": "Turn this into a clean, minimal cartoon portrait illustration, keeping the exact clothes, hairstyle, and details of the subject in the drawing. The character should be drawn from the shoulders up, with the same hair shape, color, and clothing as in the original photo. Use flat digital shading with bold black outlines and smooth color fills, keeping the design crisp and minimal. The background should be a simple solid neutral tone. The overall style should feel anime-inspired, modern, and profile-picture ready — clean, approachable, and balanced — while faithfully translating the subject’s clothing and features into a stylized cartoon form."
+  },
+  {
+    "id": 44,
+    "title": "بين خزامى أبها",
+    "category": "صور شخصية",
+    "tags": [
+      "صور شخصية"
+    ],
+    "image": "./images/002C1E67-4BB0-4C70-AB05-102CEE5E1D26.png",
+    "prompt": "Turn this into a cinematic portrait photo. the subject is wearing traditional black outfit saudi thobe, head covering, and sunglasses. The subject is lying naturally in a wide open field of purple flowers under a clear sky. Use a realistic photography style with natural daylight. Keep the depth of field shallow so the subject is in sharp focus while the background softly blurs into the horizon. Camera settings: aperture f/2.8–f/4, ISO 100, shutter speed 1/1000s for bright daylight clarity.For editing, enhance the colors of the purple flowers, soften the sky to pale blue, and slightly warm the tones on the subject for a natural glow. Maintain all clothing details and textures so the outfit and accessories look authentic. The final image should feel realistic, natural, and cinematic — a serene outdoor portrait capturing both the subject and the wide landscape."
+  },
+  {
+    "id": 45,
+    "title": "سيلفي مسكون",
+    "category": "صور شخصية",
+    "tags": [
+      "صور شخصية"
+    ],
+    "image": "./images/0DCCD224-1069-483B-A016-CD38084612C2.jpeg",
+    "prompt": "A vintage 1990s film photograph of the person in the attached photo smiling indoors, sitting in a dimly lit living room. Behind them, a ghostly white figure with a blurred face and flowing shape appears, slightly transparent and glowing. The image has film grain, dust, soft focus, and faded colors, giving it an eerie nostalgic vibe. Looks like an authentic old snapshot taken with a film camera."
+  },
+  {
+    "id": 46,
+    "title": "بورتريه سعودي رسمي",
+    "category": "صور شخصية",
+    "tags": [
+      "صور شخصية"
+    ],
+    "image": "./images/IMG_9737.jpeg",
+    "prompt": "Turn this image into a high-quality, realistic portrait. Preserve the subject’s traditional Saudi attire, including the red and white shemagh with the black agal, the bisht, and the thobe. Emphasize the intricate Saudi-style woven background with its geometric red, black, white, turquoise, and orange patterns, highlighting the cultural and traditional aesthetic. The image should be sharp, well-lit, and detailed, with a strong focus on the textures of the clothing and the richness of the background design. 9:16"
+  },
+  {
+    "id": 47,
+    "title": "بورتريه سعودي رسمي",
+    "category": "صور شخصية",
+    "tags": [
+      "صور شخصية"
+    ],
+    "image": "./images/E1400CA1-3107-4FB9-9173-7F90949BD9CF.png",
+    "prompt": "Photo grid collage in a 9-panel layout, vertical 9:16 portrait composition. Subject is the same individual as the reference image, maintaining consistent appearance, outfit, and lighting across all panels.\n    \n    Concept: Gen Z home party editorial photoshoot. Shot with direct on-camera flash, producing hard lighting, high contrast, and defined shadows. Environment features a minimal white wall backdrop styled with taped photos, white bed sheets, silver disco balls, scattered colorful metallic confetti, a large oversized blue stuffed banana toy (dominant prop), and a pink retro corded telephone.\n    \n    Each panel presents a distinct pose and moment:\n    \n    * Lying forward with chin resting on arms, confetti in hair\n    * Top-down perspective, lying on back, winking with a peace sign\n    * Sitting sideways, laughing while tossing confetti\n    * Leaning against a disco ball with an intense gaze\n    * Close-up portrait, hands on cheeks, surprised expression with confetti\n    * Reclined among disco balls, reaching upward\n    * Holding a cup of coffee in a casual candid pose\n    * Sitting cross-legged, hugging an oversized blue stuffed banana toy, pouting\n    * Holding a pink retro phone, listening with head tilted sideways\n    \n    Styling detail: Sunglasses appear in only one panel (used as a standout styling accent, not repeated across the grid).\n    \n    Visual style: vibrant color palette, candid and chaotic energy, editorial fashion photography. Shot on a 35mm lens, f/5.6, ISO 200, 1/200s. Flash photography with sharp focus, glossy highlights, and subtle film grain. Clean, magazine-style grid composition.\n    \n    Parameters: –ar 1:1 –v 6 –style raw"
+  },
+  {
+    "id": 48,
+    "title": "حول اي شعار الى تطريز",
+    "category": "شعارات",
+    "tags": [
+      "شعارات"
+    ],
+    "image": "./images/IMG_9429.png",
+    "prompt": "turn the subject in the attached image into a highly detailed embroidered . The patch should feature raised stitching and textured embroidery, giving it a realistic, 3D look. Maintain accurate colors and logo proportions. Present the patch isolated on a transparent PNG background, without any fabric or surface beneath it. Make it look like a professionally made logo patch ready for apparel or accessories."
+  },
+  {
+    "id": 49,
+    "title": "اي شعار الى بالون",
+    "category": "شعارات",
+    "tags": [
+      "شعارات"
+    ],
+    "image": "./images/IMG_9594.png",
+    "prompt": "turn the subject in the attached image into A hyper-realistic metallic foil balloon in the shape of the uploaded subject . The balloon should have a glossy, reflective surface and vibrant colors matching the logo design. It is floating outdoors in the sky. The balloon is tied with a thin golden string and softly lit by natural sunlight. The scene should look photorealistic and cheerful."
+  },
+  {
+    "id": 50,
+    "title": "شعار ورقي",
+    "category": "شعارات",
+    "tags": [
+      "شعارات"
+    ],
+    "image": "./images/147A4916-7041-420A-8844-31B1BC1FDC1E.jpeg",
+    "prompt": "turn the subject in the attached image into A paper craft-style floating on a pure white background. The subject is handcrafted from colorful cut paper with visible textures, creases, and layered shapes. It casts a soft drop shadow beneath, giving a sense of lightness and depth. The design is minimal, playful, and clean — centered in the frame with lots of negative space. Use soft studio lighting to highlight the paper texture and edges."
+  },
+  {
+    "id": 51,
+    "title": "شعار ورقي",
+    "category": "شعارات",
+    "tags": [
+      "شعارات"
+    ],
+    "image": "./images/IMG_9735.jpeg",
+    "prompt": "A premium 3D stylized version of attached logo, rendered as thick, translucent crystal glass with high refraction. The object is floating amidst fluffy, realistic white cumulus clouds against a bright, clear blue sky. Soft natural sunlight creates bright caustic reflections and rainbow dispersion within the glass. Ethereal, airy, and highly polished 3D aesthetic"
+  },
+  {
+    "id": 52,
+    "title": "حول أي شيء الى كيك",
+    "category": "منوعة",
+    "tags": [
+      "منوعة"
+    ],
+    "image": "./images/FADE9662-DD66-4155-8358-26A05CABBDD8.png",
+    "prompt": "Generate a hyper-realistic digital illustration of a cake meticulously stylized to resemble the object in the attached picture ,resting on a pristine white table. Show it partially bitten to reveal multiple delicious layers (sponge, frosting, crumbs) and shatter the illusion. Capture the moment of surprise with intricate details in the bite mark. Use a slightly overhead angle to emphasize the contrast between the realistic outer shell and the cake interior. Illuminate the scene with soft, diffused lighting to enhance textures and cast subtle shadows for depth. Keep the background minimal and bright to focus on the deceptive dessert. Employ a vibrant, playful palette for the cake layers against the object-mimicking exterior. Render in a photorealistic style with whimsical undertones, making the reveal both visually convincing and appetizing."
+  },
+  {
+    "id": 53,
+    "title": "حاسبة السعرات وجودة الطعام",
+    "category": "منوعة",
+    "tags": [
+      "منوعة"
+    ],
+    "image": "./images/IMG_8960.png",
+    "prompt": "Generate for the product in the attached image:\n    Keep the product exactly as shown in the reference image. Do NOT change the packaging, colors, logo, proportions, or any visual aspect of the product.\n    Add only accurate nutritional information as an AR-style overlay on the image. Do not add any other text, decorations, or design elements.\n    Display the following key nutritional values IN ARABIC, using real-world data from the web for this type of product:\n    - السعرات الحرارية (kcal)\n    - البروتين (جم)\n    - الدهون (جم)\n    - الكربوهيدرات (جم)\n    - السكريات (جم)\n    - الألياف (جم)\n    - الصوديوم (ملجم)\n    Additionally, include a health indicator as a PERCENTAGE showing whether the product is generally healthy or less healthy, based on its nutritional profile. Present it clearly and minimally in Arabic, without altering the product image.\n    The AR overlay should:\n    - Appear naturally above, beside, or near the product\n    - Be minimal and unobtrusive\n    - Only show the nutritional values and the health percentage\n    - Be fully legible in Arabic\n    Do not change anything else in the image. The goal is to allow the user to quickly see accurate nutritional information and the product's health rating while keeping the original product image intact"
+  },
+  {
+    "id": 54,
+    "title": "تعابير أنمي مختلفة",
+    "category": "منوعة",
+    "tags": [
+      "منوعة"
+    ],
+    "image": "./images/9CE1B694-D75F-4B73-A980-1FEF344EC5B7.png",
+    "prompt": "Turn this image into a soft, expressive character sheet that takes the shape and format of the subject attached. Use a clean anime-inspired illustration style with smooth lines, warm tones, and subtle gradients for shading. Present multiple facial expressions and head angles, each emphasizing a distinct emotion—such as joy, anger, embarrassment, or confusion—while maintaining character consistency. Keep the color palette soft and balanced, with natural skin tones, dark hair, and simple clothing, such as a white collared shirt. Use minimal backgrounds and allow for small graphic flourishes (like emoji-style icons or motion lines) to enhance emotional cues. Ideal for animation references, visual novels, or character design documentation."
+  }
+,
+  {
+    "id": 56,
+    "title": "فيديو إعلاني فاخر بسبعة مشاهد",
+    "category": "فيديو",
+    "tags": ["فيديو", "إعلاني فاخر", "Gemini"],
+    "video": "./images/luxury-editorial-video.mp4",
+    "generatedBy": "Gemini",
+    "prompt": "Create a cinematic ultra-high-end 8K studio editorial VIDEO based on [ATTACHED_INPUT_IMAGE], intelligently analyzing the subject’s geometry, material properties, branding elements, and visual identity to maintain complete physical and aesthetic consistency throughout the sequence; first identify the primary subject, logo or brand insignia, dominant materials, and design language, then apply accurate cinematic material-light interaction (sharp rim lighting for tech surfaces, realistic refraction and caustics for glass, soft diffused lighting for organic materials, matte-to-satin highlight control for fashion and luxury products).\n\nThe final output should be a seamless premium motion film structured as a single cohesive editorial sequence with seven cinematic segments inspired by luxury commercial campaigns, featuring smooth transitions, synchronized camera choreography, and unified color grading. Maintain a sophisticated ultra-premium studio aesthetic with no captions or text overlays except subtle branded logo presentation in Segment 2.\n\nSegment 1 (Hero Introduction):\nBegin with a powerful master hero shot on an infinite-curve studio background, featuring slow cinematic camera movement (dolly-in + orbit motion) that emphasizes the subject’s shape, scale, and premium material qualities. Use dramatic cinematic lighting, volumetric atmosphere, ray-traced reflections, and shallow depth of field for maximum visual impact.\n\nSegment 2 (Brand Emblem Reveal):\nTransition into a refined 3D logo or emblem reveal, centered on a minimalist studio backdrop. Animate the logo with elegant motion design such as metallic reflections, soft glow sweeps, rotating light passes, or floating particles while preserving luxury-brand aesthetics.\n\nSegment 3 (Material DNA Macro):\nCut into an extreme macro cinematic sequence revealing the subject’s microscopic material details — fibers, brushed metal grain, circuitry, stitching, glass texture, or surface imperfections — with ultra-detailed focus pulls, micro camera motion, and realistic light scattering.\n\nSegment 4 (Scale & Environment Context):\nPresent the subject within an appropriately scaled cinematic environment (gallery hall, architectural stage, pedestal display, luxury showroom, or atmospheric studio set). Use smooth crane or drone-style camera movement to establish scale and presence while keeping the subject visually dominant.\n\nSegment 5 (Top-Down Rhythm Composition):\nCreate a high-angle or top-down motion composition emphasizing repetition, modularity, symmetry, or knolling. Introduce subtle animated movement between elements for visual rhythm and editorial sophistication.\n\nSegment 6 (Dynamic Motion Moment):\nCapture a dramatic weightless action moment in slow motion, enhanced with cinematic environmental FX such as vapor, sparks, floating dust, liquid splashes, smoke trails, or debris interaction. Use high-speed-camera aesthetics with realistic physics simulation and motion blur.\n\nSegment 7 (Iconic Silhouette Finale):\nEnd with a dark high-contrast rim-lit profile shot isolating the subject’s silhouette and contours against a deep cinematic background. Introduce subtle atmospheric haze and slow camera rotation for an iconic luxury-commercial ending shot.\n\nEnsure all segments maintain absolute consistency in materials, color science, branding, reflections, lighting logic, and design language. The video should feel like a luxury commercial directed for brands such as Apple, Porsche, Dior, Tesla, or Bang & Olufsen.\n\nTechnical requirements:\n8K resolution, cinematic aspect ratio, HDR rendering, ray-traced reflections, global illumination, volumetric lighting, ultra-realistic materials, advanced cinematic color grading, smooth camera transitions, realistic physics simulation, filmic contrast, premium editorial pacing, and world-class VFX quality."
+  },
+  {
+    "id": 55,
+    "title": "فيديو UGC احترافي للمشروبات",
+    "category": "فيديو",
+    "tags": ["فيديو", "UGC", "مشروبات"],
+    "video": "./images/beverage-ugc-video.mp4",
+    "generatedBy": "Gemini",
+    "prompt": "# BEVERAGE UGC VIDEO TEMPLATE (10-12 SECONDS)\n\n## 1. Master Video Generation Prompt\n\"A hyper-realistic, textless 10-12 second cinematic UGC video featuring [Insert Beverage Product Here] shot on a professional camera. The setting is an authentic, crisp, and refreshing atmosphere with bright, natural sunlight slicing through the frame, casting sharp, beautiful shadows. The environment features realistic textures like raw ice cubes, condensation droplets on glass, and a natural stone counter or textured surface. Absolutely no artificial AI generation artifacts, hyper-smooth plastic textures, or fake floating elements; the entire sequence must feel like a genuine, refreshing lifestyle clip. The video transitions through rhythmic macro cuts focusing on ice cracking, liquid pouring, condensation, and organic movement, timed to a crisp, upbeat ambient or lo-fi background track.\"\n\n## 2. Scene-by-Scene Storyboard\n\n### Scene 1 (0:00 - 0:02) — The Setting\nVisual: A crisp, high-resolution static shot of [the product] sitting on a textured stone coaster surrounded by melting ice cubes. Real morning sunlight hits the glass bottle/can, creating natural lens flare and sparkling highlights on the condensation. Completely textless.\nAudio: Upbeat, refreshing lo-fi or ambient background music begins.\n\n### Scene 2 (0:02 - 0:04) — The Interaction\nVisual: Close-up shot with natural motion blur as a hand reaches into the frame and picks up [the product], leaving behind a small puddle of melted ice water on the surface.\nAudio: Music continues.\n\n### Scene 3 (0:04 - 0:07) — The Product Detail (Macro)\nVisual: An extreme macro lens shot focusing on the top of [the product] as it is opened (popping a tab or twisting a cap). Realistic, tiny droplets of fizz or mist burst into the sunlight in slow motion.\nAudio: Music continues, layered with a crisp, organic sound effect of a beverage opening.\n\n### Scene 4 (0:07 - 0:09) — The Feature\nVisual: A natural mid-shot of a hand lifting [the product] to subtly display the textured labeling or vibrant colors of the container against a brightly lit, out-of-focus window background.\nAudio: Music continues.\n\n### Scene 5 (0:09 - 0:11) — The Pour & Texture\nVisual: Close-up shot of the vibrant liquid pouring from [the product] into a clear glass filled with ice. Micro-bubbles rush up the side of the glass, and condensation immediately begins to form on the exterior.\nAudio: Music continues, paired with a satisfying pouring and ice-clinking sound.\n\n### Scene 6 (0:11 - 0:12) — The Outro\nVisual: Final aesthetic still life frame. The filled glass and [the product] sit side-by-side in the warm sunlight, with a final macro focus on the condensation dripping down the bottle. Clean cut to black.\nAudio: Music and sound effects fade out perfectly."
+  }
+];
+
+// ─── CATEGORY COLOR MAP ───
+const CAT_COLORS = {
+  'بزنس ومنتجات': '--cat-product',
+  'صور شخصية':    '--cat-portrait',
+  'شعارات':       '--cat-architecture',
+  'منوعة':        '--cat-abstract',
+  'فيديو':        '--cat-cinematic',
+};
+const CAT_AR = {};
+
+function getCatColor(cat) {
+  const v = CAT_COLORS[cat];
+  return v ? `var(${v})` : 'var(--dim)';
+}
+
+function setImageShape(image) {
+  const wrap = image.closest('.card-img-wrap');
+  if (!wrap || !image.naturalWidth || !image.naturalHeight) return;
+  const ratio = image.naturalWidth / image.naturalHeight;
+  const shape = ratio >= 1.65 ? 'image-wide'
+    : ratio > 1.12 ? 'image-landscape'
+    : ratio >= .88 ? 'image-square'
+    : ratio < .58 ? 'image-tall'
+    : 'image-portrait';
+  wrap.classList.remove('image-wide', 'image-landscape', 'image-square', 'image-tall', 'image-portrait', 'image-error');
+  wrap.classList.add(shape);
+  // Force column layout to recalculate immediately after the image dimensions are known.
+  wrap.closest('.card').style.transform = 'translateZ(0)';
+  requestAnimationFrame(() => { wrap.closest('.card').style.transform = ''; });
+}
+
+// ─── STATE ───
+let activeCategory = 'all';
+let searchQuery    = '';
+let activePrompt   = null;
+let lastFocusedElement = null;
+// حدّث هذه القائمة عند إضافة أوامر جديدة، الأحدث أولًا.
+const LATEST_PROMPT_IDS = [56, 55, 40, 39, 38, 37, 36, 35];
+
+// ─── FILTER PROMPTS ───
+function getFiltered() {
+  const filtered = PROMPTS.filter(p => {
+    const matchCat = activeCategory === 'all' || activeCategory === 'latest' || p.category === activeCategory;
+    const q        = searchQuery.toLowerCase();
+    const matchQ   = !q ||
+      p.title.toLowerCase().includes(q) ||
+      p.category.toLowerCase().includes(q) ||
+      p.tags.some(t => t.toLowerCase().includes(q)) ||
+      p.prompt.toLowerCase().includes(q);
+    return matchCat && matchQ;
+  });
+  return activeCategory === 'latest'
+    ? filtered
+        .filter(p => LATEST_PROMPT_IDS.includes(p.id))
+        .sort((a, b) => LATEST_PROMPT_IDS.indexOf(a.id) - LATEST_PROMPT_IDS.indexOf(b.id))
+    : filtered;
+}
+
+// ─── RENDER GRID ───
+function renderGrid() {
+  const grid      = document.getElementById('grid');
+  const filtered  = getFiltered();
+  const totalEl   = document.getElementById('total-count');
+  totalEl.textContent = PROMPTS.length;
+
+  if (!filtered.length) {
+    grid.innerHTML = `
+      <div class="empty">
+        <div class="empty-icon">✦</div>
+        <h3>لم نعثر على أوامر</h3>
+        <p>جرّب كلمة بحث أو تصنيفًا مختلفًا.</p>
+        <button class="empty-reset" type="button">عرض كل الأوامر</button>
+      </div>`;
+    grid.querySelector('.empty-reset').addEventListener('click', resetLibrary);
+    return;
+  }
+
+  grid.innerHTML = filtered.map((p, index) => `
+    <div class="card" data-id="${p.id}" tabindex="0" role="button" aria-label="فتح الأمر: ${p.title}">
+      <div class="card-img-wrap image-portrait">
+        ${p.video
+          ? `<video src="${p.video}" muted loop playsinline autoplay preload="metadata"></video>`
+          : `<img src="${p.image}" alt="${p.title}" loading="${index < 8 ? 'eager' : 'lazy'}" decoding="async"${index < 4 ? ' fetchpriority="high"' : ''}>`}
+        ${activeCategory === 'latest' && p.id === LATEST_PROMPT_IDS[0]
+          ? '<span class="new-badge">آخر أمر مضاف</span>'
+          : activeCategory === 'latest'
+            ? '<span class="new-badge">أضيف حديثًا</span>'
+            : ''}
+        <div class="card-overlay">
+          <div class="card-overlay-hint">
+            <svg width="11" height="11" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+              <rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+            </svg>
+            عرض الأمر
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <span class="cat-pill" style="background:${getCatColor(p.category)}22;color:${getCatColor(p.category)};border:1px solid ${getCatColor(p.category)}44">${CAT_AR[p.category] || p.category}</span>
+        ${p.generatedBy ? `<span class="gemini-badge">استخدم ${p.generatedBy}</span>` : ''}
+        <div class="card-title">${p.title}</div>
+        <div class="card-tags">${p.tags.slice(0,3).map(t=>`<span class="tag">${t}</span>`).join('')}</div>
+      </div>
+    </div>
+  `).join('');
+
+  // Bind clicks
+  grid.querySelectorAll('.card').forEach(card => {
+    const open = () => openModal(parseInt(card.dataset.id));
+    card.addEventListener('click', open);
+    card.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        open();
+      }
+    });
+  });
+  grid.querySelectorAll('.card-img-wrap img').forEach(image => {
+    if (image.complete && image.naturalWidth) setImageShape(image);
+    else image.addEventListener('load', () => setImageShape(image), { once: true });
+    image.addEventListener('error', () => {
+      image.closest('.card-img-wrap')?.classList.add('image-error');
+      image.style.visibility = 'hidden';
+    }, { once: true });
+  });
+}
+
+// ─── MODAL ───
+function openModal(id) {
+  const p = PROMPTS.find(x => x.id === id);
+  if (!p) return;
+  activePrompt = p;
+  lastFocusedElement = document.activeElement;
+
+  const modalImage = document.getElementById('modal-img');
+  const modalVideo = document.getElementById('modal-video');
+  modalImage.classList.toggle('hidden-media', Boolean(p.video));
+  modalVideo.classList.toggle('hidden-media', !p.video);
+  if (p.video) {
+    modalVideo.src = p.video;
+    modalVideo.play().catch(() => {});
+    modal.classList.remove('image-landscape', 'image-square', 'image-portrait');
+    modal.classList.add('image-portrait');
+  } else {
+    modalVideo.pause();
+    modalVideo.removeAttribute('src');
+    modalImage.src = p.image;
+    modalImage.alt = p.title;
+  }
+  modalImage.onload = () => {
+    if (p.video) return;
+    const modal = document.getElementById('modal');
+    const ratio = modalImage.naturalWidth / modalImage.naturalHeight;
+    modal.classList.remove('image-landscape', 'image-square', 'image-portrait');
+    modal.classList.add(ratio > 1.2 ? 'image-landscape' : ratio < .82 ? 'image-portrait' : 'image-square');
+  };
+  document.getElementById('modal-title').textContent = p.title;
+  const modalPrompt = document.getElementById('modal-prompt');
+  modalPrompt.textContent = p.prompt;
+  modalPrompt.classList.remove('expanded');
+  document.getElementById('expand-prompt-btn').textContent = 'عرض الأمر كاملًا';
+
+  const pill = document.getElementById('modal-cat-pill');
+  pill.textContent  = CAT_AR[p.category] || p.category;
+  pill.style.background = `${getCatColor(p.category)}22`;
+  pill.style.color      = getCatColor(p.category);
+  pill.style.border     = `1px solid ${getCatColor(p.category)}44`;
+
+  const tagsEl = document.getElementById('modal-tags');
+  tagsEl.innerHTML = `${p.generatedBy ? `<span class="gemini-badge">استخدم ${p.generatedBy}</span>` : ''}${p.tags.map(t => `<span class="tag">${t}</span>`).join('')}`;
+
+  resetCopyBtn();
+  const bg = document.getElementById('modal-bg');
+  bg.classList.add('open');
+  bg.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+  document.getElementById('modal-close').focus();
+}
+
+function closeModal() {
+  const bg = document.getElementById('modal-bg');
+  bg.classList.remove('open');
+  bg.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+  document.getElementById('modal-video').pause();
+  activePrompt = null;
+  lastFocusedElement?.focus();
+  lastFocusedElement = null;
+}
+
+function resetCopyBtn() {
+  const btn = document.getElementById('copy-btn');
+  btn.classList.remove('copied');
+  btn.innerHTML = `
+    <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+      <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+    </svg>
+    نسخ الأمر`;
+}
+
+function burstCopyButton(button) {
+  const colors = ['#08783A', '#12A150', '#4AC778', '#9ED9B3', '#FFFFFF'];
+  for (let i = 0; i < 14; i++) {
+    const particle = document.createElement('span');
+    particle.className = 'copy-pop';
+    particle.style.setProperty('--pop-angle', `${(360 / 14) * i + Math.random() * 14}deg`);
+    particle.style.setProperty('--pop-distance', `${34 + Math.random() * 32}px`);
+    particle.style.setProperty('--pop-color', colors[i % colors.length]);
+    particle.style.animationDelay = `${Math.random() * 60}ms`;
+    button.appendChild(particle);
+    particle.addEventListener('animationend', () => particle.remove());
+  }
+}
+
+document.getElementById('copy-btn').addEventListener('click', () => {
+  if (!activePrompt) return;
+  navigator.clipboard.writeText(activePrompt.prompt).then(() => {
+    const btn = document.getElementById('copy-btn');
+    btn.classList.add('copied');
+    btn.innerHTML = `
+      <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+        <path d="M20 6 9 17l-5-5"/>
+      </svg>
+      تم نسخ الأمر`;
+    burstCopyButton(btn);
+    setTimeout(resetCopyBtn, 2500);
+  }).catch(() => {
+    const btn = document.getElementById('copy-btn');
+    btn.textContent = 'تعذر النسخ، حاول مرة أخرى';
+    setTimeout(resetCopyBtn, 2500);
+  });
+});
+
+document.getElementById('modal-close').addEventListener('click', closeModal);
+document.getElementById('expand-prompt-btn').addEventListener('click', () => {
+  const promptBox = document.getElementById('modal-prompt');
+  const expanded = promptBox.classList.toggle('expanded');
+  document.getElementById('expand-prompt-btn').textContent = expanded ? 'إخفاء النص الكامل' : 'عرض الأمر كاملًا';
+});
+document.getElementById('modal-bg').addEventListener('click', e => {
+  if (e.target === document.getElementById('modal-bg')) closeModal();
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && document.getElementById('modal-bg').classList.contains('open')) closeModal();
+});
+
+function resetLibrary() {
+  activeCategory = 'all';
+  searchQuery = '';
+  document.getElementById('search').value = '';
+  document.querySelectorAll('.filter-btn').forEach(button => {
+    button.classList.toggle('active', button.dataset.cat === 'all');
+  });
+  renderGrid();
+}
+
+// ─── FILTERS ───
+document.getElementById('filters').addEventListener('click', e => {
+  const btn = e.target.closest('.filter-btn');
+  if (!btn) return;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  activeCategory = btn.dataset.cat;
+  renderGrid();
+});
+
+document.getElementById('show-latest-btn').addEventListener('click', () => {
+  const latestButton = document.querySelector('[data-cat="latest"]');
+  document.querySelectorAll('.filter-btn').forEach(button => button.classList.remove('active'));
+  latestButton.classList.add('active');
+  activeCategory = 'latest';
+  renderGrid();
+  document.querySelector('.filters-wrap').scrollIntoView({ behavior: 'smooth', block: 'center' });
+});
+
+// ─── SEARCH ───
+let searchTimeout;
+document.getElementById('search').addEventListener('input', e => {
+  clearTimeout(searchTimeout);
+  searchTimeout = setTimeout(() => {
+    searchQuery = e.target.value.trim();
+    renderGrid();
+  }, 180);
+});
+
+// ─── TOUCH DRAG TO CLOSE ───
+let startY = 0, isDragging = false;
+const modal = document.getElementById('modal');
+modal.addEventListener('touchstart', e => {
+  if (modal.scrollTop === 0) { startY = e.touches[0].clientY; isDragging = true; }
+}, { passive: true });
+modal.addEventListener('touchmove', e => {
+  if (!isDragging) return;
+  const dy = e.touches[0].clientY - startY;
+  if (dy > 0) modal.style.transform = `translateY(${dy}px)`;
+}, { passive: true });
+modal.addEventListener('touchend', e => {
+  if (!isDragging) return;
+  const dy = e.changedTouches[0].clientY - startY;
+  if (dy > 100) { closeModal(); }
+  modal.style.transform = '';
+  isDragging = false;
+});
+
+// ─── ORDER ACCESS ───
+const authForm = document.getElementById('auth-form');
+const authStatus = document.getElementById('auth-status');
+const authMessage = document.getElementById('auth-message');
+const authSubmit = document.getElementById('auth-submit');
+
+function unlockLibrary() {
+  document.body.classList.remove('auth-checking', 'auth-locked');
+  document.body.classList.add('authenticated');
+  renderGrid();
+}
+
+function showLogin(message = '') {
+  document.body.classList.remove('auth-checking', 'authenticated');
+  document.body.classList.add('auth-locked');
+  authStatus.hidden = true;
+  authForm.hidden = false;
+  authMessage.textContent = message;
+  document.getElementById('order-number').focus();
+}
+
+async function initializeAccess() {
+  if (location.protocol === 'file:') {
+    showLogin('يتطلب تسجيل الدخول نشر الموقع على Netlify.');
+    return;
+  }
+
+  try {
+    const response = await fetch('/api/session', { credentials: 'same-origin' });
+    const result = await response.json();
+    if (result.authenticated) unlockLibrary();
+    else showLogin();
+  } catch {
+    showLogin('تعذر الاتصال بخدمة التحقق. حاول مرة أخرى.');
+  }
+}
+
+authForm.addEventListener('submit', async event => {
+  event.preventDefault();
+  const orderNumber = document.getElementById('order-number').value.replace(/\D/g, '');
+  authMessage.textContent = '';
+  authSubmit.disabled = true;
+  authSubmit.textContent = 'جارٍ التحقق…';
+
+  try {
+    const response = await fetch('/api/login', {
+      method: 'POST',
+      credentials: 'same-origin',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ orderNumber }),
+    });
+    const result = await response.json();
+    if (!response.ok || !result.success) throw new Error(result.message || 'تعذر تسجيل الدخول');
+    unlockLibrary();
+  } catch (error) {
+    authMessage.textContent = error.message;
+  } finally {
+    authSubmit.disabled = false;
+    authSubmit.textContent = 'دخول إلى المكتبة';
+  }
+});
+
+document.getElementById('logout-btn').addEventListener('click', async () => {
+  await fetch('/api/logout', { method: 'POST', credentials: 'same-origin' }).catch(() => {});
+  location.reload();
+});
+
+// ─── INIT ───
+initializeAccess();
+</script>
+</body>
+</html>
